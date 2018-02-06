@@ -2,6 +2,7 @@
 #include "book.hpp"
 #include "linkedlist.hpp"
 #include <fstream>
+#include <functional>
 
 
 void enter_field(const std::string& desc,
@@ -65,6 +66,29 @@ public:
 };
 
 
+void delete_if(LList::LinkedList<Book>& list,
+               const std::function<bool(const Book&)>& predicate) {
+    try {
+        list.find_and_del(predicate);
+    } catch (const LList::NotFound& ex) {
+        std::cout << ex.what() << std::endl;
+    }
+}
+
+
+void find_by(LList::LinkedList<Book>& list,
+             const std::function<bool(const Book&)>& criteria) {
+    try {
+        std::pair<int, Book> pair = list.find(criteria);
+        int ops = pair.first;
+        std::cout << "Search took " << ops << " operations" << std::endl;;
+    } catch (const LList::NotFound& ex) {
+        std::cout << ex.what() << std::endl;
+    }
+}
+
+
+
 int main(int argc, const char* argv[]) {
     LList::LinkedList<Book> list;
 
@@ -89,29 +113,56 @@ int main(int argc, const char* argv[]) {
 
     std::cout << "\n\nbooks:\n\n";
 
-    list.for_each(
-                PrintValue<Book>(
-                    "==================\n",
-                    "\n==================\n"
-                    )
-                );
+    bool exit = false;
+    while (!exit) {
+        list.for_each( PrintValue<Book>( "=======\n", "\n=======\n" ) );
+        std::cout << "\n";
 
-    std::string authorToDel;
-    enter_field("enter author name to delete his books", authorToDel);
+        std::cout << "choose one of the options:\n";
+        std::cout << " 1. Delete by author\n 2. Delete by title\n";
+        std::cout << " 3. Find by author\n 4. Find by title\n";
+        std::cout << " 5. Delete first\n 4. Delete last\n";
+        std::cout << " -1. Exit\n";
 
-    try {
-        list.find_and_del(AuthorIs(authorToDel));
+        int option;
 
-        std::cout << "\n\nbooks after deletion:\n\n";
+        std::cin >> option;
+        std::cin.ignore();
 
-        list.for_each(
-                    PrintValue<Book>(
-                        "*****************\n",
-                        "\n*****************\n"
-                        )
-                    );
-    } catch (const LList::NotFound& ex) {
-        std::cout << ex.what() << std::endl;
+        switch (option) {
+        case -1: {
+            exit = true;
+            break;
+        } case 1: {
+            std::string authorToDel;
+            enter_field("enter author name to delete his books", authorToDel);
+            delete_if(list, AuthorIs(authorToDel));
+            break;
+        } case 2: {
+            std::string titleToDel;
+            enter_field("enter book title to delete", titleToDel);
+            delete_if(list, TitleIs(titleToDel));
+            break;
+        } case 3: {
+            std::string authorToFind;
+            enter_field("enter author name to find his book", authorToFind);
+            find_by(list, AuthorIs(authorToFind));
+            break;
+        } case 4: {
+            std::string titleToFind;
+            enter_field("enter book title to find", titleToFind);
+            find_by(list, TitleIs(titleToFind));
+            break;
+        } case 5: {
+            list.pop_front();
+            break;
+        } case 6: {
+            list.pop_back();
+            break;
+        } default: {
+            break;
+        }
+        }
     }
 
     return 0;
