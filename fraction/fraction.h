@@ -26,6 +26,8 @@ public:
     fraction(const fraction& f);
     ~fraction() {}
 
+    static fraction from_string(const std::string& s);
+
     friend std::ostream& operator << (std::ostream& stream, const fraction& f);
     friend std::istream& operator >> (std::istream& stream, fraction& f);
 
@@ -69,17 +71,12 @@ public:
     bool operator <(const fraction& f) const;
     bool operator >(const fraction& f) const;
 
-    bool operator ==(const double& decimal) const;
-    bool operator !=(const double& decimal) const;
-    bool operator <=(const double& decimal) const;
-    bool operator >=(const double& decimal) const;
-    bool operator <(const double& decimal) const;
-    bool operator >(const double& decimal) const;
-
-    double operator +(const double& decimal);
-    double operator -(const double& decimal);
-    double operator *(const double& decimal);
-    double operator /(const double& decimal);
+    bool operator ==(const int& decimal) const;
+    bool operator !=(const int& decimal) const;
+    bool operator <=(const int& decimal) const;
+    bool operator >=(const int& decimal) const;
+    bool operator <(const int& decimal) const;
+    bool operator >(const int& decimal) const;
 
     operator double() const { return double(_numerator) / _denominator; }
     operator float() const { return float(_numerator) / _denominator; }

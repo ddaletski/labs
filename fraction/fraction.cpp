@@ -1,4 +1,7 @@
 #include "fraction.h"
+#include <cstdio>
+#include <cstdlib>
+#include <sstream>
 
 typedef unsigned int uint;
 
@@ -30,6 +33,8 @@ void fraction::to_canonical()
 
 fraction::fraction(int numerator, int denominator)
 {
+    if(denominator == 0)
+        throw ZeroDivision();
     _numerator = numerator;
     _denominator = denominator;
     to_canonical();
@@ -39,6 +44,14 @@ fraction::fraction(const fraction &f)
 {
     _numerator = f._numerator;
     _denominator = f._denominator;
+}
+
+fraction fraction::from_string(const std::string& s)
+{
+    std::istringstream str(s);
+    fraction f;
+    str >> f;
+    return f;
 }
 
 ////////////////////////////////////////////////////
@@ -52,6 +65,8 @@ fraction&fraction::operator =(const fraction& f)
 
 fraction&fraction::operator =(const std::pair<int, int>& pair)
 {
+    if(pair.second == 0)
+        throw ZeroDivision();
     _numerator = pair.first;
     _denominator = pair.second;
     to_canonical();
@@ -60,7 +75,14 @@ fraction&fraction::operator =(const std::pair<int, int>& pair)
 
 fraction&fraction::operator =(const char* str)
 {
-    sscanf(str, "%d/%d", &_numerator, &_denominator);
+    int num, denom;
+    sscanf(str, "%d/%d", &num, &denom);
+    if(denom == 0)
+        throw ZeroDivision();
+
+    _numerator = num;
+    _denominator = denom;
+
     to_canonical();
     return *this;
 }
@@ -197,30 +219,12 @@ fraction fraction::operator /(const int& decimal)
     return temp;
 }
 
-double fraction::operator +(const double& decimal)
-{
-    return double(*this) + decimal;
-}
-
-double fraction::operator -(const double& decimal)
-{
-    return double(*this) - decimal;
-}
-
-double fraction::operator *(const double& decimal)
-{
-    return double(*this) * decimal;
-}
-
-double fraction::operator /(const double& decimal)
-{
-    return double(*this) / decimal;
-}
-
 ///////////////////////////////////////////////////////
 
 fraction fraction::operator !()
 {
+    if(_numerator == 0)
+        throw ZeroDivision();
     fraction temp = *this;
     std::swap(temp._numerator, temp._denominator);
     temp.to_canonical();
@@ -292,32 +296,32 @@ bool fraction::operator >(const fraction& f) const
     return double(*this) > double(f);
 }
 
-bool fraction::operator ==(const double& decimal) const
+bool fraction::operator ==(const int& decimal) const
 {
     return double(*this) == decimal;
 }
 
-bool fraction::operator !=(const double& decimal) const
+bool fraction::operator !=(const int& decimal) const
 {
     return double(*this) != decimal;
 }
 
-bool fraction::operator <=(const double& decimal) const
+bool fraction::operator <=(const int& decimal) const
 {
     return double(*this) <= decimal;
 }
 
-bool fraction::operator >=(const double& decimal) const
+bool fraction::operator >=(const int& decimal) const
 {
     return double(*this) >= decimal;
 }
 
-bool fraction::operator <(const double& decimal) const
+bool fraction::operator <(const int& decimal) const
 {
     return double(*this) < decimal;
 }
 
-bool fraction::operator >(const double& decimal) const
+bool fraction::operator >(const int& decimal) const
 {
     return double(*this) > decimal;
 }
@@ -352,63 +356,22 @@ fraction operator /(const int& decimal, const fraction& f)
     return temp;
 }
 
-double operator +(const double& decimal, const fraction& f)
-{
-    double temp = decimal;
-    temp += double(f);
-    return temp;
-}
-
-double operator -(const double& decimal, const fraction& f)
-{
-    double temp = decimal;
-    temp -= double(f);
-    return temp;
-}
-
-double operator *(const double& decimal, const fraction& f)
-{
-    double temp = decimal;
-    temp *= double(f);
-    return temp;
-}
-
-double operator /(const double& decimal, const fraction& f)
-{
-    fraction temp = decimal;
-    temp /= double(f);
-    return temp;
-}
 
 ///////////////////////////////////////////////////////////////
 
-double& operator +=(double& decimal, const fraction& f)
-{
-    return decimal += double(f);
-}
-
-double& operator -=(double& decimal, const fraction& f)
-{
-    return decimal -= double(f);
-}
-
-double& operator *=(double& decimal, const fraction& f)
-{
-    return decimal *= double(f);
-}
-
-double& operator /=(double& decimal, const fraction& f)
-{
-    return decimal /= double(f);
-}
-
-///////////////////////////////////////////////////////////////
 
 std::istream& operator >>(std::istream& stream, fraction& f)
 {
     char div;
-    stream >> f._numerator >> div >> f._denominator;
+    int num, denom;
+    stream >> num >> div >> denom;
+    if (denom == 0)
+        throw ZeroDivision();
+
+    f._numerator = num;
+    f._denominator = denom;
     f.to_canonical();
+
     return stream;
 }
 
@@ -421,4 +384,3 @@ std::ostream& operator <<(std::ostream& stream, const fraction& f)
 }
 
 ///////////////////////////////////////////////////////////////
-
