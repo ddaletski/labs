@@ -3,6 +3,7 @@
 #include "linkedlist.hpp"
 #include <fstream>
 #include <functional>
+#include <sstream>
 
 
 void enter_field(const std::string& desc,
@@ -88,7 +89,6 @@ void find_by(LList::LinkedList<Book>& list,
 }
 
 
-
 int main(int argc, const char* argv[]) {
     LList::LinkedList<Book> list;
 
@@ -99,7 +99,12 @@ int main(int argc, const char* argv[]) {
     }
 
     std::ofstream nullStream("out.txt");
+
     std::ifstream infile(argv[1]);
+    if (!infile.is_open()) {
+        std::cout << argv[1] << ": file not found" << std::endl;
+        return 0;
+    }
 
     while(!infile.eof()) {
         Book book;
@@ -110,6 +115,13 @@ int main(int argc, const char* argv[]) {
         std::getline(infile, fakeStr);
         list.push_back(book);
     }
+
+    std::ofstream dotfile("list.dot");
+    list.to_dot(dotfile, [](const Book& b) {
+            std::ostringstream ss;
+            ss << b << "\n";
+            return ss.str();
+    });
 
     std::cout << "\n\nbooks:\n\n";
 

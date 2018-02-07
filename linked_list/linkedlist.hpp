@@ -169,6 +169,30 @@ public:
         }
     }
 
+
+    void to_dot(std::ostream& stream,
+            const std::function<std::string(const T&)> obj_to_str) {
+
+        stream << "digraph g { \n";
+        stream << "node [shape=rect];\n";
+
+        int i = 0;
+        for_each( [&](const T& elem) {
+                stream << "node" << i << "[label=\"" << obj_to_str(elem) << "\"];\n";
+                ++i;
+        });
+
+        stream << "nil[label=nil color=\"red\"];\n";
+        stream << "node0 -> nil;\n";
+
+        for (int j = 1; j < i; ++j) {
+            stream << "node" << j << " -> node" << (j-1) << ";\n";
+        }
+
+        stream << "}";
+    }
+
+
 private:
     int size;
     NodePtr start;
