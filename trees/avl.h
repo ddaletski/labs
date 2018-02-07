@@ -125,14 +125,14 @@ class Avl {
         if (!node->left && !node->right) {
             *nodePtr = nullptr;
             delete node;
-        } else if (!node->left) {
-            TreeNode<T>** min_right = _find_min(&(node->right));
-            std::swap(node->val, (*min_right)->val);
-            _remove(min_right);
-        } else {
+        } else if (!node->right) {
             TreeNode<T>** max_left = _find_max(&(node->left));
             std::swap(node->val, (*max_left)->val);
             _remove(max_left);
+        } else {
+            TreeNode<T>** min_right = _find_min(&(node->right));
+            std::swap(node->val, (*min_right)->val);
+            _remove(min_right);
         } 
     }
 
