@@ -1,9 +1,10 @@
 #include <iostream>
+#include "complex.h"
 
-using namespace std;
 
-int main()
-{
-    cout << "Hello World!" << endl;
+int main() {
+    Complex::Complex c;
+    std::cin >> c;
+    std::cout << c << std::endl;
     return 0;
 }
