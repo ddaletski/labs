@@ -1,16 +1,18 @@
 #include <iostream>
 #include "fraction.h"
+#include <functional>
+
+#define fs fraction::from_string
 
 int main() {
-    auto fs = fraction::from_string;
-    fraction f = 2 + ((fs("1/2") + fs("3/4") - 2) * 2) * 3;
+    fraction f = 2 + ((fs("1/2") + fs("3/4") - 2) * 2) * fs("3/2");
     std::cout << f << std::endl;
     f++;
     f /= 2;
     std::cout << f << std::endl;
 
-    std::cout << 0.35 * double(f) << std::endl;
+    std::cout << 35 * f << std::endl;
 
-//    std::cout << (f < -1) << std::endl;
+    std::cout << (-1 < f) << std::endl;
     return 0;
 }

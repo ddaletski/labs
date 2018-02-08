@@ -268,65 +268,66 @@ fraction&fraction::operator --()
 
 bool fraction::operator ==(const fraction& f) const
 {
-    return double(*this) == double(f);
+    return (*this).to_d() == (f).to_d();
 }
 
 bool fraction::operator !=(const fraction& f) const
 {
-    return double(*this) != double(f);
+    return (*this).to_d() != (f).to_d();
 }
 
 bool fraction::operator <=(const fraction& f) const
 {
-    return double(*this) <= double(f);
+    return (*this).to_d() <= (f).to_d();
 }
 
 bool fraction::operator >=(const fraction& f) const
 {
-    return double(*this) >= double(f);
+    return (*this).to_d() >= (f).to_d();
 }
 
 bool fraction::operator <(const fraction& f) const
 {
-    return double(*this) < double(f);
+    return (*this).to_d() < (f).to_d();
 }
 
 bool fraction::operator >(const fraction& f) const
 {
-    return double(*this) > double(f);
+    return (*this).to_d() > (f).to_d();
 }
 
 bool fraction::operator ==(const int& decimal) const
 {
-    return double(*this) == decimal;
+    return (*this).to_d() == decimal;
 }
 
 bool fraction::operator !=(const int& decimal) const
 {
-    return double(*this) != decimal;
+    return (*this).to_d() != decimal;
 }
 
 bool fraction::operator <=(const int& decimal) const
 {
-    return double(*this) <= decimal;
+    return (*this).to_d() <= decimal;
 }
 
 bool fraction::operator >=(const int& decimal) const
 {
-    return double(*this) >= decimal;
+    return (*this).to_d() >= decimal;
 }
 
 bool fraction::operator <(const int& decimal) const
 {
-    return double(*this) < decimal;
+    return (*this).to_d() < decimal;
 }
 
 bool fraction::operator >(const int& decimal) const
 {
-    return double(*this) > decimal;
+    return (*this).to_d() > decimal;
 }
 
 //////////////////////////////////////////////////////////////////
+//  OUTER OPS //
 
 fraction operator +(const int& decimal, const fraction& f)
 {
@@ -354,6 +355,53 @@ fraction operator /(const int& decimal, const fraction& f)
     fraction temp = decimal;
     temp /= f;
     return temp;
+}
+
+
+fraction operator +=(int& decimal, const fraction& f)
+{
+    return int(decimal + f.to_d());
+}
+
+fraction operator -=(int& decimal, const fraction& f)
+{
+    return int(decimal - f.to_d());
+}
+
+fraction operator *=(int& decimal, const fraction& f)
+{
+    return int(decimal * f.to_d());
+}
+
+fraction operator /=(int& decimal, const fraction& f)
+{
+    if (f._numerator == 0)
+        throw ZeroDivision();
+    return int(decimal / f.to_d());
+}
+
+bool operator ==(const int& decimal, const fraction& f) {
+    return decimal == f.to_d();
+}
+
+bool operator !=(const int& decimal, const fraction& f) {
+    return decimal != f.to_d();
+}
+
+bool operator <=(const int& decimal, const fraction& f) {
+    return decimal <= f.to_d();
+}
+
+bool operator >=(const int& decimal, const fraction& f) {
+    return decimal >= f.to_d();
+}
+
+bool operator <(const int& decimal, const fraction& f) {
+    return decimal < f.to_d();
+}
+
+bool operator >(const int& decimal, const fraction& f) {
+    return decimal > f.to_d();
 }
 
 

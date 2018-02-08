@@ -78,9 +78,25 @@ public:
     bool operator <(const int& decimal) const;
     bool operator >(const int& decimal) const;
 
-    operator double() const { return double(_numerator) / _denominator; }
-    operator float() const { return float(_numerator) / _denominator; }
-    operator int() const { return _numerator / _denominator; }
+	
+    friend fraction operator + (const int& decimal, const fraction& f);
+    friend fraction operator - (const int& decimal, const fraction& f);
+    friend fraction operator * (const int& decimal, const fraction& f);
+    friend fraction operator / (const int& decimal, const fraction& f);
+
+    friend fraction operator += (int& decimal, const fraction& f);
+    friend fraction operator -= (int& decimal, const fraction& f);
+    friend fraction operator *= (int& decimal, const fraction& f);
+    friend fraction operator /= (int& decimal, const fraction& f);
+
+    friend bool operator ==(const int& decimal, const fraction& f);
+    friend bool operator !=(const int& decimal, const fraction& f);
+    friend bool operator <=(const int& decimal, const fraction& f);
+    friend bool operator >=(const int& decimal, const fraction& f);
+    friend bool operator <(const int& decimal, const fraction& f);
+    friend bool operator >(const int& decimal, const fraction& f);
+
+    double to_d() const { return double(_numerator / _denominator); }
 };
 
 #endif // FRACTION_H
