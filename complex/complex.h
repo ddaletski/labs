@@ -6,13 +6,18 @@
 #include <stdexcept>
 #include <sstream>
 #include <cstring>
+#include <cmath>
 
 namespace Complex {
 
 class InvalidFormat : public std::exception {
+    std::string _info;
 public:
+    InvalidFormat(const std::string& arg) {
+	_info = "Invalid format of complex number: " + arg;
+    }
     virtual const char* what() const noexcept {
-        return "Invalid format of complex number";
+        return _info.c_str();
     }
 };
 
@@ -50,18 +55,22 @@ public:
     bool operator != (const Complex& other) const;
 
     friend std::ostream& operator << (std::ostream& str, const Complex& c) {
-        str << c._re << " + " << c._im << "i";
+	char plus = c._im > 0 ? '+' : '-';
+        str << c._re << plus << fabs(c._im) << '*' << 'i';
     }
 
-    friend std::istream& operator >> (std::istream& str, const Complex& c) {
+    friend std::istream& operator >> (std::istream& str, Complex& c) {
         double re, im;
-        char plus, i;
-        str >> re >> plus >> im >> i;
-        if (i != 'i' || plus != '+') {
+        char plus, i, mul;
+        str >> re >> plus >> im >> mul >> i;
+        if (i != 'i' || (plus != '+' && plus !='-') || mul !='*') {
             std::ostringstream tmp;
-            tmp << re << plus << im << i;
-            throw InvalidFormat();
+            tmp << re << plus << im << mul << i;
+            throw InvalidFormat(tmp.str());
         }
+
+	c._re = re;
+	c._im = (plus == '+' ? im : -im);
     }
 };
 

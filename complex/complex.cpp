@@ -39,8 +39,10 @@ Complex &Complex::operator -=(const Complex &other) {
 }
 
 Complex &Complex::operator *=(const Complex &other) {
-    _re = _re * other._re - _im * other._im;
-    _im = _re * other._im + _im * other._re;
+    double re = _re * other._re - _im * other._im;
+    double im = _re * other._im + _im * other._re;
+    _re = re;
+    _im = im;
     return *this;
 }
 
