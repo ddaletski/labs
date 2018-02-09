@@ -1,0 +1,5 @@
+
+#gallery ul li.chosen i {display:block;}
+#gallery ul li.chosen i em {width:0; height:100%; display:inline-block; vertical-align:middle;} 
+#gallery ul li.chosen i img {display:inline-block; vertical-align:middle;}
+#gallery ul li.chosen i img.start {width:390px; height:259px;}

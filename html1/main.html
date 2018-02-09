@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru_RU">
+
+<head>
+	<title>Главная страница</title>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		body, html {
+			height: 480px;
+			padding: 0;
+		}
+		#header {
+			background-color: black;
+			color: white;
+			text-align: left;
+			padding: 5px;
+			clear: both;
+		}
+		#nav {
+			float: left;
+			line-height: 30px;
+			background-color: #eeeeee;
+			height: 100%;
+			width: 15%;
+		}
+		#section {
+			float: left;
+			width: 85%;
+			height: 100%;
+		}
+		#footer {
+			clear: both;
+			background-color: black;
+			color: white;
+			text-align:center;
+			padding: 5px;	 	 
+		}
+		#iframe_main {
+			width: 100%;
+			height: 100%;
+		}
+		#logo {
+			padding-top: 11px;
+			margin-right: -9px;
+			float: left;
+		}
+		#nav li {
+			list-style-type: none;
+		}
+		#nav li a {
+			display: block;
+			color: #000;
+			padding: 8px 0 8px 16px;
+			text-decoration: none;
+		} 	
+		#nav li a.nv:hover {
+			background-color: "black";
+			color: white;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="header">
+		<img src="logo1.jpg" id="logo">
+		<h1>enis Daletski</h1>
+	</div>
+
+	<div id="nav">
+		<ul><b>Разделы:</b> 
+			<li><a href="home.html" target="iframe_main" onclick="clicked(this)">
+				Домашняя страница</a>
+			</li>
+			<li><a href="bio.html" target="iframe_main" onclick="clicked(this)">
+				Биография</a>
+			</li>
+			<li><a href="edu.html" target="iframe_main" onclick="clicked(this)">
+				Обучение</a>
+			</li>
+			<li><a href="galery.html" target="iframe_main" onclick="clicked(this)">
+				Фотоальбом</a>
+			</li>
+		</ul>
+	</div>
+
+	<div id="section">
+		<iframe  src="home.html" id="iframe_main" name="iframe_main" frameborder="0"></iframe>
+	</div>
+
+	<div id="footer">
+		<p>Denis Daletski &copy 2016</p>
+	</div>
+
+	<script>
+		function clicked(elmnt) {
+			clr='#4CAF50';
+			var nav = document.getElementsByTagName("a");
+			for (var i = 0; i < nav.length; i++) {
+				nav[i].style.backgroundColor = "inherit";
+			}
+			elmnt.style.backgroundColor = clr;
+		}
+	</script>
+</body>

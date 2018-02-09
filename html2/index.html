@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="styles/index.css">
+    </head>
+    <body>
+        <!--
+            main universities (math, CS), coursera like (universal), html academy like (coding)
+            div.header>ul>b+(li*4>a[target=iframe_main href onclick=clicked(this)])
+        -->
+        <div id="header">
+            <ul>
+                <li>
+                    <a href="home.html" target="iframe_main" onclick="clicked(this)">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="universities.html" target="iframe_main" onclick="clicked(this)">
+                        Universities
+                    </a>
+                </li>
+                <li>
+                    <a href="moocs.html" target="iframe_main" onclick="clicked(this)">
+                        MOOCs
+                    </a>
+                </li>
+                <li>
+                    <a href="coding_schools.html" target="iframe_main" onclick="clicked(this)">
+                        Coding schools
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="section">
+            <iframe  src="home.html" id="iframe_main" name="iframe_main" frameborder="0"></iframe>
+        </div>
+
+        <div id="footer">
+            <p>Denis Daletski, 2018</p>
+        </div>
+
+
+        <script>
+            function clicked(elmnt) {
+                clr='#4CAF50';
+                var nav = document.getElementsByTagName("a");
+                for (var i = 0; i < nav.length; i++) {
+                    nav[i].style.backgroundColor = "inherit";
+                }
+                elmnt.style.backgroundColor = clr;
+            }
+        </script>
+
+    </body>
+</html>

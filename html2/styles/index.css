@@ -1,0 +1,39 @@
+body, html {
+    height: 480px;
+    padding: 0;
+}
+
+#header {
+    background-color: black;
+    color: white;
+    text-align: left;
+    padding: 5px;
+    clear: both;
+}
+
+#header ul {
+    list-style:none;
+    direction:ltr;
+}
+
+#header ul li {
+    display: inline;
+}
+
+#header ul li a {
+    display: inline-block;
+}
+
+#footer {
+    background-color: black;
+    color: white;
+    text-align: left;
+    padding: 5px;
+    clear: both;
+}
+
+#iframe_main {
+    width: 100%;
+    height: 100%;
+}
+
