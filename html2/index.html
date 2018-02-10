@@ -3,32 +3,28 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <link rel="stylesheet" type="text/css" href="styles/index.css">
+        <link rel="stylesheet" type="text/css"href="styles/index.css">
     </head>
-    <body>
-        <!--
-            main universities (math, CS), coursera like (universal), html academy like (coding)
-            div.header>ul>b+(li*4>a[target=iframe_main href onclick=clicked(this)])
-        -->
+    <body onload="clicked_default()">
         <div id="header">
             <ul>
                 <li>
-                    <a href="home.html" target="iframe_main" onclick="clicked(this)">
+                    <a class='menuLink' href="home.html" target="iframe_main" onclick="clicked(this)">
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="universities.html" target="iframe_main" onclick="clicked(this)">
+                    <a class='menuLink' href="universities.html" target="iframe_main" onclick="clicked(this)">
                         Universities
                     </a>
                 </li>
                 <li>
-                    <a href="moocs.html" target="iframe_main" onclick="clicked(this)">
+                    <a class='menuLink' href="moocs.html" target="iframe_main" onclick="clicked(this)">
                         MOOCs
                     </a>
                 </li>
                 <li>
-                    <a href="coding_schools.html" target="iframe_main" onclick="clicked(this)">
+                    <a class='menuLink' href="coding_schools.html" target="iframe_main" onclick="clicked(this)">
                         Coding schools
                     </a>
                 </li>
@@ -52,6 +48,10 @@
                     nav[i].style.backgroundColor = "inherit";
                 }
                 elmnt.style.backgroundColor = clr;
+            }
+            function clicked_default() {
+                links = document.getElementsByClassName("menuLink")
+                clicked(links[0])
             }
         </script>
 

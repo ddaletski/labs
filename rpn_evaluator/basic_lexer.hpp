@@ -2,6 +2,7 @@
 #define BASIC_LEXER_HPP
 
 #include <vector>
+#include <memory>
 
 class Token {
 public:

@@ -3,11 +3,14 @@
 #include <string>
 #include "lexer.hpp"
 
-
 class RpnParser {
 public:
     RpnParser();
-    ~RpnParser();
+
+    std::string to_polish(const std::string& s);
+
+private:
+    Lexer lexer;
 };
 
 #endif // RPNPARSER_HPP
