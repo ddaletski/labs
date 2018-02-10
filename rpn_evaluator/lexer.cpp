@@ -48,6 +48,8 @@ std::vector<TokenPtr> Lexer::tokenize(const std::string &s) {
         v.push_back(rules[*active.begin()].second(s.substr(start, end - start)));
     } else if (active.size() > 1) {
         throw "ambiguous case";
+    } else {
+        throw "unknown token";
     }
 
     return v;

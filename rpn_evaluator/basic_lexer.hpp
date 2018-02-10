@@ -6,7 +6,12 @@
 
 class Token {
 public:
-    virtual std::string description() = 0;
+    virtual std::string to_str() const = 0;
+
+    friend std::ostream& operator << (std::ostream& str, const Token& t) {
+        str << t.to_str();
+        return str;
+    }
 };
 
 typedef std::shared_ptr<Token> TokenPtr;

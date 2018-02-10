@@ -11,8 +11,8 @@
 
 class TokenSpace : public Token {
 public:
-    std::string description() {
-        return "<space>";
+    std::string to_str() const {
+        return " ";
     }
 };
 
@@ -26,8 +26,12 @@ public:
         stream >> _val;
     }
 
-    std::string description() {
-        return "<number " + std::to_string(_val) + ">";
+    std::string to_str() const {
+        return std::to_string(_val);
+    }
+
+    double value() {
+        return _val;
     }
 };
 
@@ -38,32 +42,78 @@ private:
 public:
     TokenId(const std::string& s) : _name(s) {}
 
-    std::string description() {
-        return "<identifier " + _name + ">";
+    std::string to_str() const {
+        return _name;
+    }
+
+    std::string name() {
+        return _name;
     }
 };
 
 class TokenOperation : public Token {
 public:
-    int priority () { return 0; }
-    bool left_assoc() { return false; }
-    bool right_assoc() { return false; }
+    virtual int priority() const { return 0; }
+    virtual bool right_assoc() const { return false; }
 };
 
 
 class TokenPlus : public TokenOperation {
 public:
-    std::string description() {
-        return "<op +>";
+    std::string to_str() const {
+        return "+";
     }
+    int priority() const { return 0; }
 };
 
 class TokenMinus : public TokenOperation {
 public:
-    std::string description() {
-        return "<op ->";
+    std::string to_str() const {
+        return "-";
+    }
+    int priority() const { return 0; }
+};
+
+class TokenMul : public TokenOperation {
+public:
+    std::string to_str() const {
+        return "*";
+    }
+    int priority() const { return 1; }
+};
+
+class TokenDiv : public TokenOperation {
+public:
+    std::string to_str() const {
+        return "/";
+    }
+    int priority() const { return 1; }
+};
+
+class TokenPow : public TokenOperation {
+public:
+    std::string to_str() const {
+        return "^";
+    }
+    int priority() const { return 2; }
+    bool right_assoc() const { return true; }
+};
+
+
+class TokenParenLeft : public Token {
+public:
+    std::string to_str() const {
+        return "(";
     }
 };
+
+class TokenParenRight : public Token {
+public:
+    std::string to_str() const {
+        return ")";
+    }
+};
+
 
 class Lexer : public BasicLexer {
 public:
