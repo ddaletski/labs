@@ -2,11 +2,24 @@
 #define LEXER_HPP
 
 #include "basic_lexer.hpp"
-#include <list>
+#include <vector>
 #include <utility>
 #include <regex>
 #include <functional>
 #include <sstream>
+#include <exception>
+
+class LexicalAmbiguity : std::exception {
+private:
+    std::string message;
+public:
+    LexicalAmbiguity(const std::string& str) {
+    }
+};
+
+class LexicalError : std::exception {
+
+};
 
 
 class TokenSpace : public Token {
