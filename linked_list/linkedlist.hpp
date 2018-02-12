@@ -39,95 +39,117 @@ typedef ListNode<T>* NodePtr;
 
 public:
     LinkedList() {
-        start = end = nullptr;
-        size = 0;
+        _start = _end = nullptr;
+        _size = 0;
     }
 
     LinkedList(const LinkedList<T>& from) {
-        start = end = nullptr;
-        size = 0;
-        for(NodePtr iter = from.end; iter; iter = iter->next) {
+        _start = _end = nullptr;
+        _size = 0;
+        for(NodePtr iter = from._end; iter; iter = iter->next) {
             push_front(iter->elem);
         }
     }
 
     LinkedList<T>& operator = (const LinkedList& from) {
-        for(NodePtr iter = from.end; iter; iter = iter->next) {
+        for(NodePtr iter = from._end; iter; iter = iter->next) {
             push_front(iter->elem);
         }
     }
 
 
     ~LinkedList() {
-        while(size > 0) {
+        while(_size > 0) {
             pop_back();
         }
     }
 
+
+    size_t size() {
+        return _size;
+    }
+
+
+    bool empty() {
+        return _size == 0;
+    }
+
+    const T& front() {
+        if(empty())
+            throw EmptyList();
+        return *_start;
+    }
+
+    const T& back() {
+        if(empty())
+            throw EmptyList();
+        return *_end;
+    }
+
     void push_back(const T& elem) {
-        end = new ListNode<T>(elem, end);
-        if (size == 0)
-            start = end;
-        size++;
+        _end = new ListNode<T>(elem, _end);
+        if (_size == 0)
+            _start = _end;
+        _size++;
     }
 
     void push_front(const T& elem) {
         NodePtr newStart = new ListNode<T>(elem, nullptr);
-        if (size == 0) {
-            start = end = newStart;
+        if (_size == 0) {
+            _start = _end = newStart;
         } else {
-            start->next = newStart;
-            start = newStart;
+            _start->next = newStart;
+            _start = newStart;
         }
-        size++;
+        _size++;
     }
 
     T pop_back() {
-        if (size == 0) {
+        if (_size == 0) {
             throw EmptyList();
         }
-        T elem = end->elem;
-        NodePtr toDelete = end;
+        T elem = _end->elem;
+        NodePtr toDelete = _end;
 
-        end = end->next;
+        _end = _end->next;
 
         delete toDelete;
-        size--;
+        _size--;
 
-        if (size == 0)
-            start = end = nullptr;
+        if (_size == 0)
+            _start = _end = nullptr;
 
         return elem;
     }
 
     T pop_front() {
-        if (size == 0) {
+        if (_size == 0) {
             throw EmptyList();
-        } else if (size == 1) {
-            T elem = start->elem;
-            delete start;
-            start = end = nullptr;
+        } else if (_size == 1) {
+            T elem = _start->elem;
+            delete _start;
+            _start = _end = nullptr;
         } else {
-            std::swap(start->elem, end->elem);
+            std::swap(_start->elem, _end->elem);
             return pop_back();
         }
 
-        size--;
+        _size--;
 
-        if (size == 0)
-            start = end = nullptr;
+        if (_size == 0)
+            _start = _end = nullptr;
     }
 
 
     std::pair<int, T> find(const std::function<bool(const T&)>& predicate) const {
-        if (size == 0)
+        if (_size == 0)
             throw NotFound();
 
-        if (predicate(end->elem))
-            return std::make_pair(1, end->elem);
+        if (predicate(_end->elem))
+            return std::make_pair(1, _end->elem);
 
         int operations = 1;
-        for(NodePtr iter = end->next; iter; iter = iter->next) {
+        for(NodePtr iter = _end->next; iter; iter = iter->next) {
             operations++;
             if (predicate(iter->elem))
                 return std::make_pair(operations, iter->elem);
@@ -138,17 +160,17 @@ public:
 
     void find_and_del(const std::function<bool(const T&)>& predicate) {
         bool found = false;
-        if (size == 0)
+        if (_size == 0)
             throw NotFound();
 
-        if (predicate(end->elem))
+        if (predicate(_end->elem))
             pop_back();
 
-        for(NodePtr iter = end->next, prev = end; iter; iter = iter->next, prev=prev->next) {
+        for(NodePtr iter = _end->next, prev = _end; iter; iter = iter->next, prev=prev->next) {
             if (predicate(iter->elem)) {
                 prev->next = iter->next;
                 delete iter;
-                size--;
+                _size--;
                 found = true;
             }
         }
@@ -158,13 +180,13 @@ public:
     }
 
     void apply(const std::function<T(const T&)>& op) {
-        for (NodePtr iter = end; iter; iter=iter->next) {
+        for (NodePtr iter = _end; iter; iter=iter->next) {
             iter->elem = op(iter->elem);
         }
     }
 
     void for_each(const std::function<void(const T&)>& op) const {
-        for (NodePtr iter = end; iter; iter=iter->next) {
+        for (NodePtr iter = _end; iter; iter=iter->next) {
             op(iter->elem);
         }
     }
@@ -194,9 +216,9 @@ public:
 
 
 private:
-    int size;
-    NodePtr start;
-    NodePtr end;
+    int _size;
+    NodePtr _start;
+    NodePtr _end;
 };
 
 }
