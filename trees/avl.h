@@ -4,6 +4,7 @@
 #include <functional>
 #include <iostream>  // DEL
 #include <memory> 
+#include <queue>
 
 template <class T>
 class TreeNode {
@@ -98,25 +99,39 @@ class Avl {
 
     void _traverse_reversed(TreeNode<T>* node, int id, const NodeApplicator& f) {
         if (node) {
-            _traverse_direct(node->left, id*2, f);
-            _traverse_direct(node->right, id*2+1, f);
+            _traverse_reversed(node->left, id*2, f);
+            _traverse_reversed(node->right, id*2+1, f);
             f(id, *node);
         }
     }
 
     void _traverse_minmax(TreeNode<T>* node, int id, const NodeApplicator& f) {
         if (node) {
-            _traverse_direct(node->left, id*2, f);
+            _traverse_minmax(node->left, id*2, f);
             f(id, *node);
-            _traverse_direct(node->right, id*2+1, f);
+            _traverse_minmax(node->right, id*2+1, f);
         }
     }
 
     void _traverse_maxmin(TreeNode<T>* node, int id, const NodeApplicator& f) {
         if (node) {
-            _traverse_direct(node->right, id*2+1, f);
+            _traverse_maxmin(node->right, id*2+1, f);
             f(id, *node);
-            _traverse_direct(node->left, id*2, f);
+            _traverse_maxmin(node->left, id*2, f);
+        }
+    }
+
+    void _traverse_levels(TreeNode<T>* node, int id, const NodeApplicator& f) {
+        std::queue<TreeNode<T>*> queue;
+        queue.push(node);
+
+        while (queue.size()) {
+            auto node = queue.pop();
+            if (node) {
+                f(id++, *node);
+                queue.push(node->left);
+                queue.push(node->right);
+            }
         }
     }
 
@@ -206,6 +221,8 @@ class Avl {
             case MAXMIN:
                 _traverse_maxmin(_root, 1, f);
                 break;
+            case LEVELS:
+                _traverse_levels(_root, 1, f);
             default:
                 break;
         }

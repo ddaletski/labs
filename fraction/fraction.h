@@ -97,6 +97,7 @@ public:
     friend bool operator >(const int& decimal, const fraction& f);
 
     double to_d() const { return double(_numerator / _denominator); }
+    operator double() { return to_d(); }
 };
 
 #endif // FRACTION_H

@@ -9,17 +9,43 @@
 #include <sstream>
 #include <exception>
 
-class LexicalAmbiguity : std::exception {
+
+class LexicalError : std::exception {
 private:
-    std::string message;
+    std::string _info;
 public:
-    LexicalAmbiguity(const std::string& str) {
+    LexicalError(const std::string& str) {
+        _info = "Lexical error at '" + str + "'";
+    }
+    virtual const char* what() const noexcept {
+        return _info.c_str();
     }
 };
 
-class LexicalError : std::exception {
-
+class LexicalAmbiguity : LexicalError {
+private:
+    std::string _info;
+public:
+    LexicalAmbiguity(const std::string& str) {
+        _info = "Ambiuous lexic at '" + str + "'";
+    }
+    virtual const char* what() const noexcept {
+        return _info.c_str();
+    }
 };
+
+class UnknownToken : LexicalError {
+private:
+    std::string _info;
+public:
+    LexicalAmbiguity(const std::string& str) {
+        _info = "Unknown token at '" + str + "'";
+    }
+    virtual const char* what() const noexcept {
+        return _info.c_str();
+    }
+};
+
 
 
 class TokenSpace : public Token {
@@ -40,7 +66,9 @@ public:
     }
 
     std::string to_str() const {
-        return std::to_string(_val);
+        std::ostringstream stream;
+        stream << _val;
+        return stream.str();
     }
 
     double value() {

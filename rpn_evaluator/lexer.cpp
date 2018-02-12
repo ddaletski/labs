@@ -39,17 +39,18 @@ std::vector<TokenPtr> Lexer::tokenize(const std::string &s) {
                 matches.clear();
                 break;
             default:
-                throw "ambiguous case";
+                throw LexicalAmbiguity(substr);
                 break;
         }
     }
 
     if (active.size() == 1) {
-        v.push_back(rules[*active.begin()].second(s.substr(start, end - start)));
+        // here
+        v.push_back(rules[*active.begin()].second(substr));
     } else if (active.size() > 1) {
-        throw "ambiguous case";
+        throw LexicalAmbiguity(substr);
     } else {
-        throw "unknown token";
+        throw UnknownToken(substr);
     }
 
     return v;

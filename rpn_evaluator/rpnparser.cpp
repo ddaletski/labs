@@ -64,7 +64,7 @@ std::string RpnParser::to_polish(const std::string& s) {
 
         if(typeid(*tokenPtr) == typeid(TokenNum)) {
             result << " " << token_str;
-        } else if (std::regex_match(token_str, std::regex("[+\\-*=^]"))) {
+        } else if (dynamic_cast<TokenOperation*>(tokenPtr.get())) {
             auto op_ptr = dynamic_cast<TokenOperation*>(tokenPtr.get());
             std::function<bool(int, int)> cmp;
 
@@ -99,7 +99,7 @@ std::string RpnParser::to_polish(const std::string& s) {
                 else
                     result << " " << sym;
                 if (stack.empty())
-                    throw "unbalanced parens";
+                    throw SyntaxError(s);
             }
         }
     }
@@ -108,9 +108,32 @@ std::string RpnParser::to_polish(const std::string& s) {
         auto sym = dynamic_cast<TokenOperation*>(stack.top().get());
         stack.pop();
         if (sym == nullptr)
-            throw "unbalanced parens";
+            throw SyntaxError(s);
         result << " " << (*sym);
     }
 
     return result.str();
 }
+
+
+double RpnParser::calculate_polish(const std::string& polish) {
+    std::vector<TokenPtr> tokens = lexer.tokenize(polish);
+    std::stack<double> stack;
+
+    for (auto tokenPtr : tokens) {
+        if (typeid(*tokenPtr) == typeid(TokenNum)) {
+            stack.push(dynamic_cast<TokenNum*>(tokenPtr.get())->value())
+        } else if (dynamic_cast<TokenOperation*>(tokenPtr.get)) {
+        } else {
+        }
+    }
+
+    return 0;
+}
+
+
+double RpnParser::calculate_infix(const std::string& infix) {
+    return calculate_polish(to_polish(infix));
+}
+
+

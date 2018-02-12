@@ -41,9 +41,9 @@ int main()
     matrix<int> B(2, 4, 2);
 
     try {
-    std::cout << "A = \n" << A << std::endl;
-    std::cout << "B = \n" << B << std::endl;
-    std::cout << "AB = \n" << A * B << std::endl;
+        std::cout << "A = \n" << A << std::endl;
+        std::cout << "B = \n" << B << std::endl;
+        std::cout << "AB = \n" << A * B << std::endl;
     } catch (WrongDimensionException& ex) {
         std::cout << ex.what() << std::endl;
     }

@@ -1,6 +1,6 @@
 #ifndef MATRIX_H
 #define MATRIX_H
-#
+
 #include <cstdlib>
 #include <initializer_list>
 #include <functional>
@@ -197,6 +197,9 @@ public:
     /////////////////////////////////////////////////////
 
     matrix& operator = (const matrix& m) {
+	if(ID == m.ID)
+	   return *this;
+
         if(_rows != m._rows || _cols != m._cols)
             _erase();
         _rows = m._rows;
