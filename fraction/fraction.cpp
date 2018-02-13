@@ -5,6 +5,7 @@
 
 typedef unsigned int uint;
 
+// the greatest common divisor
 int gcd(int a, int b) {
     if(abs(a) < abs(b))
         return gcd(abs(b), abs(a));

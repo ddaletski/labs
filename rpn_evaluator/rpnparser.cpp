@@ -60,7 +60,6 @@ std::string RpnParser::to_polish(const std::string& s) {
 
     for (auto tokenPtr : tokens) {
         std::string token_str = tokenPtr->to_str();
-        std::cout << token_str << std::endl;
 
         if(typeid(*tokenPtr) == typeid(TokenNum)) {
             result << " " << token_str;
@@ -92,7 +91,6 @@ std::string RpnParser::to_polish(const std::string& s) {
         } else if (token_str == ")") {
             while(true) {
                 auto sym = stack.top()->to_str();
-                std::cout << sym << std::endl;
                 stack.pop();
                 if (sym == "(")
                     break;
@@ -122,8 +120,9 @@ double RpnParser::calculate_polish(const std::string& polish) {
 
     for (auto tokenPtr : tokens) {
         if (typeid(*tokenPtr) == typeid(TokenNum)) {
-            stack.push(dynamic_cast<TokenNum*>(tokenPtr.get())->value())
-        } else if (dynamic_cast<TokenOperation*>(tokenPtr.get)) {
+            stack.push(dynamic_cast<TokenNum*>(tokenPtr.get())->value());
+        } else if (dynamic_cast<TokenOperation*>(tokenPtr.get())) {
+            auto op = dynamic_cast<TokenOperation*>(tokenPtr.get());
         } else {
         }
     }

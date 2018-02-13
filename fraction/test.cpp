@@ -51,7 +51,49 @@ TEST_F(FractionTest, testFromString) {
     ASSERT_EQ(f2.denominator(), f4.denominator());
 }
 
-TEST_F(FractionTest, testEquality) {
+TEST_F(FractionTest, testCopyConstructor) {
+    fraction f1(24, 423);
+    fraction f2{f1};
+    fraction f3{f2};
+
+    ASSERT_EQ(f1, f2);
+    ASSERT_EQ(f1, f3);
+}
+
+TEST_F(FractionTest, testAssignmnent) {
+    fraction f1(30, 241);
+
+    fraction f2;
+    f2 = f1;
+
+    ASSERT_EQ(f1, f2);
+}
+
+
+///////////////////////////////////////////////
+//  comparison
+
+
+TEST_F(FractionTest, testLessEqual) {
+    fraction f1(4, 1);
+    fraction f2(5, 2);
+
+    ASSERT_LE(f1, 10);
+    ASSERT_LE(f1, 4);
+    ASSERT_LE(f2, f1);
+    ASSERT_LE(3, f1);
+    ASSERT_LE(4, f1);
+
+    ASSERT_FALSE(f1 <= 2);
+    ASSERT_FALSE(f1 <= f2);
+    ASSERT_FALSE(10 <= f1);
+}
+
+TEST_F(FractionTest, testLess) {}
+TEST_F(FractionTest, testGreater) {}
+TEST_F(FractionTest, testGreaterEqual) {}
+
+TEST_F(FractionTest, testEqual) {
     fraction f1(3, 4);
     fraction f2(-4, 5);
 
@@ -68,26 +110,17 @@ TEST_F(FractionTest, testEquality) {
 
     ASSERT_FALSE(f1 == f2);
     ASSERT_FALSE(f1 == f4);
-    ASSERT_FALSE(f2 == f4);
+    ASSERT_FALSE(f2 == f3);
     ASSERT_FALSE(f3 == f4);
+
+    fraction f5(3, 1);
+    ASSERT_TRUE(f5 == 3);
+    ASSERT_TRUE(3 == f5);
 }
 
-TEST_F(FractionTest, testCopyConstructor) {
-    fraction f1(24, 423);
-    fraction f2{f1};
-    fraction f3{f2};
+TEST_F(FractionTest, testNotEqual) {}
 
-    ASSERT_EQ(f1, f2);
-    ASSERT_EQ(f1, f3);
-}
-
-TEST_F(FractionTest, testAssignmnent) {
-}
-//TEST_F(FractionTest, testCopyConstructor) {}
-//TEST_F(FractionTest, testCopyConstructor) {}
-//TEST_F(FractionTest, testCopyConstructor) {}
-//TEST_F(FractionTest, testCopyConstructor) {}
-//TEST_F(FractionTest, testCopyConstructor) {}
+///////////////////////////////////////////////////
 //TEST_F(FractionTest, testCopyConstructor) {}
 //TEST_F(FractionTest, testCopyConstructor) {}
 //TEST_F(FractionTest, testCopyConstructor) {}

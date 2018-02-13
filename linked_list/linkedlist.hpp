@@ -123,21 +123,29 @@ public:
     }
 
     T pop_front() {
+        T elem;
+
         if (_size == 0) {
             throw EmptyList();
         } else if (_size == 1) {
-            T elem = _start->elem;
+            elem = _start->elem;
             delete _start;
             _start = _end = nullptr;
         } else {
-            std::swap(_start->elem, _end->elem);
-            return pop_back();
-        }
+            NodePtr iter, prev;
+            for (iter=_end->next, prev=_end; iter!=_start; iter=iter->next, prev=prev->next);
 
+            elem = _start->elem;
+            prev->next = nullptr;
+            _start = prev;
+            delete iter;
+        } 
         _size--;
 
         if (_size == 0)
             _start = _end = nullptr;
+
+        return elem;
     }
 
 
@@ -158,31 +166,43 @@ public:
     }
 
 
-    void find_and_del(const std::function<bool(const T&)>& predicate) {
-        bool found = false;
+    int find_and_del(const std::function<bool(const T&)>& predicate) {
+        int deleted = 0;
+
         if (_size == 0)
-            throw NotFound();
+            return deleted;
 
-        if (predicate(_end->elem))
-            pop_back();
-
-        for(NodePtr iter = _end->next, prev = _end; iter; iter = iter->next, prev=prev->next) {
+        for(NodePtr iter = _end->next, prev = _end; iter;) {
             if (predicate(iter->elem)) {
                 prev->next = iter->next;
                 delete iter;
+                iter = prev->next;
                 _size--;
-                found = true;
+                deleted++;
+            } else {
+                prev = prev->next;
+                iter = prev->next;
             }
         }
 
-        if (!found)
-            throw NotFound();
+        if (_end && predicate(_end->elem)) {
+            pop_back();
+            deleted++;
+        }
+
+        return deleted;
     }
 
-    void apply(const std::function<T(const T&)>& op) {
+    void apply(const std::function<const T(T&)>& op) {
         for (NodePtr iter = _end; iter; iter=iter->next) {
             iter->elem = op(iter->elem);
         }
+    }
+
+    LinkedList<T> map(const std::function<const T(T&)>& op) const {
+        LinkedList<T> newList = *this;
+        newList.apply(op);
+        return newList;
     }
 
     void for_each(const std::function<void(const T&)>& op) const {

@@ -10,10 +10,11 @@
 #include <exception>
 
 
-class LexicalError : std::exception {
+class LexicalError : public std::exception {
 private:
     std::string _info;
 public:
+    LexicalError() { _info = "Lexical error"; }
     LexicalError(const std::string& str) {
         _info = "Lexical error at '" + str + "'";
     }
@@ -22,7 +23,7 @@ public:
     }
 };
 
-class LexicalAmbiguity : LexicalError {
+class LexicalAmbiguity : public LexicalError {
 private:
     std::string _info;
 public:
@@ -34,11 +35,11 @@ public:
     }
 };
 
-class UnknownToken : LexicalError {
+class UnknownToken : public LexicalError {
 private:
     std::string _info;
 public:
-    LexicalAmbiguity(const std::string& str) {
+    UnknownToken(const std::string& str) {
         _info = "Unknown token at '" + str + "'";
     }
     virtual const char* what() const noexcept {
