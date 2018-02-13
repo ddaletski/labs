@@ -21,7 +21,7 @@ void fraction::to_canonical()
         return;
     }
     if(_denominator == 0)
-        throw BadFraction();
+        throw ZeroDivision();
     else if(_denominator < 0) {
         _numerator = -_numerator;
         _denominator = -_denominator;

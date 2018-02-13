@@ -13,5 +13,4 @@ enable_testing()
 add_executable(run_tests "test.cpp")
 target_link_libraries(run_tests "-lgtest" ${CMAKE_THREAD_LIBS_INIT})
 
-
 add_test(test1 "run_tests")

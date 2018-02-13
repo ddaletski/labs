@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "linkedlist.hpp"
+#include <cstdlib>
 
 
 using namespace LList;
@@ -84,33 +85,96 @@ TEST_F(ListTest, testPopMakesListEmpty) {
 }
 
 TEST_F(ListTest, testPopFrontThrowsIfEmpty) {
+    ASSERT_THROW(_list1.pop_front(), EmptyList);
 }
 
-TEST_F(ListTest, testPopBackThrowsIfEmpty) {}
+TEST_F(ListTest, testPopBackThrowsIfEmpty) {
+    ASSERT_THROW(_list1.pop_back(), EmptyList);
+}
 
 //////////////////////////////////////
 // front and back
 
 TEST_F(ListTest, testFrontWorks) {
+    _list1.push_front(13);
+    _list1.push_back(1);
+    ASSERT_EQ(_list1.front(), 13);
 }
 
-TEST_F(ListTest, testFrontThrowsIfEmpty) {}
+TEST_F(ListTest, testFrontThrowsIfEmpty) {
+    ASSERT_THROW(_list1.front(), EmptyList);
+}
 
 TEST_F(ListTest, testBackWorks) {
+    _list1.push_back(23);
+    _list1.push_back(108);
+    ASSERT_EQ(_list1.back(), 108);
 }
-TEST_F(ListTest, testBackThrowsIfEmpty) {}
 
-TEST_F(ListTest, testFindFindsExistingElement) {
-
+TEST_F(ListTest, testBackThrowsIfEmpty) {
+    ASSERT_THROW(_list1.back(), EmptyList);
 }
 
 //////////////////////////////////////
 // find, delete
 
-TEST_F(ListTest, testFindThrowsNotFound) { }
+TEST_F(ListTest, testFindWorks) { 
+    double inserted_val = 4123.5;
+    for(int i = 0; i < 10; ++i) {
+        _list1.push_front(rand() % 1000);
+        _list1.push_back(rand() % 1000);
+    }
+
+    _list1.push_back(inserted_val);
+
+    for(int i = 0; i < 10; ++i) {
+        _list1.push_front(rand() % 1000);
+        _list1.push_back(rand() % 1000);
+    }
+
+    auto found = _list1.find([&](const double& v) {
+                return v == inserted_val;
+            });
+
+    ASSERT_EQ(found.second, inserted_val);
+
+    found = _list1.find([](const double& v) {
+                return v > 1000;
+            });
+
+    ASSERT_EQ(found.second, inserted_val);
+}
+
+TEST_F(ListTest, testFindThrowsNotFound) {
+    double not_inserted_val = 4123.5;
+
+    for(int i = 0; i < 10; ++i) {
+        _list1.push_front(rand() % 1000);
+        _list1.push_back(rand() % 1000);
+    }
+
+    for(int i = 0; i < 10; ++i) {
+        _list1.push_front(rand() % 1000);
+        _list1.push_back(rand() % 1000);
+    }
+
+    ASSERT_THROW(
+        _list1.find([&](const double& v) {
+            return v == not_inserted_val;
+        }),
+        NotFound
+    );
+
+    ASSERT_THROW(
+        _list1.find([](const double& v) {
+            return v > 1000;
+        }),
+        NotFound
+    );
+}
 
 TEST_F(ListTest, testFindIsOfLinearComplexity) { }
-TEST_F(ListTest, testFindAndDelDeletesIfFound) { }
+TEST_F(ListTest, testFindAndDelWorks) { }
 TEST_F(ListTest, testFindAndDelThrowsUnlessFound) { }
 TEST_F(ListTest, testFindApplyWorks) { }
 TEST_F(ListTest, testFindForEachWorks) { }

@@ -5,10 +5,6 @@
 
 typedef unsigned int uint;
 
-class BadFraction {
-
-};
-
 class ZeroDivision {
 
 };
@@ -30,6 +26,9 @@ public:
 
     friend std::ostream& operator << (std::ostream& stream, const fraction& f);
     friend std::istream& operator >> (std::istream& stream, fraction& f);
+
+    int numerator() { return _numerator; }
+    int denominator() { return _denominator; }
 
     fraction& operator = (const fraction& f);
     fraction& operator = (const int& decimal);

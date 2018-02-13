@@ -77,13 +77,13 @@ public:
     const T& front() {
         if(empty())
             throw EmptyList();
-        return *_start;
+        return _start->elem;
     }
 
     const T& back() {
         if(empty())
             throw EmptyList();
-        return *_end;
+        return _end->elem;
     }
 
     void push_back(const T& elem) {
