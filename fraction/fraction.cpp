@@ -239,32 +239,6 @@ fraction fraction::operator -()
     return temp;
 }
 
-fraction fraction::operator ++(int)
-{
-    fraction temp = *this;
-    _numerator += _denominator;
-    return temp;
-}
-
-fraction&fraction::operator ++()
-{
-    _numerator += _denominator;
-    return *this;
-}
-
-fraction fraction::operator --(int)
-{
-    fraction temp = *this;
-    _numerator -= _denominator;
-    return temp;
-}
-
-fraction&fraction::operator --()
-{
-    _numerator -= _denominator;
-    return *this;
-}
-
 //////////////////////////////////////////////////////
 
 bool fraction::operator ==(const fraction& f) const
@@ -416,6 +390,12 @@ std::istream& operator >>(std::istream& stream, fraction& f)
     stream >> num >> div >> denom;
     if (denom == 0)
         throw ZeroDivision();
+
+    if (div != '/') {
+        std::ostringstream stream;
+        stream << num << div << denom;
+        throw BadInputFormat(stream.str());
+    }
 
     f._numerator = num;
     f._denominator = denom;

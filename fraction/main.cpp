@@ -7,7 +7,6 @@
 int main() {
     fraction f = 2 + ((fs("1/2") + fs("3/4") - 2) * 2) * fs("3/2");
     std::cout << f << std::endl;
-    f++;
     f /= 2;
     std::cout << f << std::endl;
 

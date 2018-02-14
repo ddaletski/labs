@@ -2,11 +2,29 @@
 #define FRACTION_H
 #include <iostream>
 #include <iomanip>
+#include <exception>
+#include <sstream>
 
 typedef unsigned int uint;
 
-class ZeroDivision {
+class ZeroDivision : public std::exception {
+    public:
+        virtual const char* what() noexcept {
+            return "zero division occured or denominator is 0";
+        }
+};
 
+class BadInputFormat {
+    private:
+        std::string _info;
+    public:
+        BadInputFormat(const std::string& arg) {
+            _info = "Bad input format for fraction: " + arg;
+        }
+
+        virtual const char* what() noexcept {
+            return _info.c_str();
+        }
 };
 
 class fraction
@@ -58,11 +76,6 @@ public:
     fraction operator !();
     fraction operator -();
 
-    fraction operator ++(int);
-    fraction& operator ++();
-    fraction operator --(int);
-    fraction& operator --();
-
     bool operator ==(const fraction& f) const;
     bool operator !=(const fraction& f) const;
     bool operator <=(const fraction& f) const;
@@ -95,7 +108,7 @@ public:
     friend bool operator <(const int& decimal, const fraction& f);
     friend bool operator >(const int& decimal, const fraction& f);
 
-    double to_d() const { return double(_numerator / _denominator); }
+    double to_d() const { return double(_numerator) / _denominator; }
     operator double() { return to_d(); }
 };
 
