@@ -21,7 +21,7 @@ class TreeNode {
 };
 
 template <class T, class Compare = std::less<T>>
-class Avl {
+class BST {
    public:
     // unary operator to apply to each nodevalue
     typedef std::function<void(const T&)> Applicator;
@@ -152,16 +152,16 @@ class Avl {
     }
 
    public:
-    Avl() {
+    BST() {
         _size = 0;
         _root = nullptr;
     }
 
-    virtual ~Avl() { _clean_tree(_root); }
+    virtual ~BST() { _clean_tree(_root); }
 
     int size() { return _size; }
 
-    bool empty() { return _root; }
+    bool empty() { return _root == nullptr; }
 
     void insert(const T& val) {
         if (_root)
@@ -183,6 +183,7 @@ class Avl {
     }
 
     T pop_min() {
+        // VALUE, NOT BOOL
         if(empty()) return false;
 
         TreeNode<T>** min = _find_min(&_root);
