@@ -4,6 +4,8 @@
 #include <random>
 #include <algorithm>
 
+using namespace bst;
+
 template <class T>
 std::ostream& operator << (std::ostream& str, const std::vector<T>& vec) {
     str << "[ ";
@@ -32,9 +34,13 @@ protected:
 
 TEST_F(TreeTest, TestInsert) {
     for(auto x : random_vector) {
-        tree1.insert(x);
+        ASSERT_TRUE(tree1.insert(x));
     }
     ASSERT_EQ(tree1.size(), random_vector.size());
+
+    for(auto x : random_vector) {
+        ASSERT_FALSE(tree1.insert(x));
+    }
 }
 
 TEST_F(TreeTest, TestRemove) {
@@ -52,6 +58,21 @@ TEST_F(TreeTest, TestRemove) {
 
     ASSERT_EQ(tree1.size(), 0);
 }
+
+TEST_F(TreeTest, TestFind) {
+    for(auto x : random_vector) {
+        tree1.insert(x);
+    }
+
+    for(int i = 1; i <= 10; ++i) {
+        auto comparisons = tree1.find(i);
+        ASSERT_GT(comparisons, 0);
+    }
+
+    auto comparisons = tree1.find(15);
+    ASSERT_LT(comparisons, 0);
+}
+
 
 TEST_F(TreeTest, TestPopMin) {
     for(auto x : random_vector) {
@@ -82,6 +103,115 @@ TEST_F(TreeTest, TestPopMax) {
     ASSERT_EQ(tree1.size(), initial_size - 1);
     ASSERT_FALSE(tree1.remove(max));
 }
+
+
+TEST_F(TreeTest, TestPopMinMaxThrowsIfEmpty) {
+    ASSERT_THROW(tree1.pop_max(), EmptyTree);
+    ASSERT_THROW(tree1.pop_min(), EmptyTree);
+}
+
+
+TEST_F(TreeTest, TestTraverseMinmax) {
+    for(auto x : random_vector) {
+        tree1.insert(x);
+    }
+
+    std::vector<int> sorted_vector;
+
+    std::vector<int> true_sorted_vector = random_vector;
+    std::sort(true_sorted_vector.begin(), true_sorted_vector.end());
+
+    BST<int>::Applicator func = [&](const int& nodeVal) {
+        sorted_vector.push_back(nodeVal);
+    };
+
+    tree1.traverse(BST<int>::traverse_type::MINMAX, func);
+
+    ASSERT_EQ(sorted_vector, true_sorted_vector);
+}
+
+
+TEST_F(TreeTest, TestTraverseMaxmin) {
+    for(auto x : random_vector) {
+        tree1.insert(x);
+    }
+
+    std::vector<int> sorted_vector;
+
+    std::vector<int> true_sorted_vector = random_vector;
+    std::sort(true_sorted_vector.begin(), true_sorted_vector.end());
+    std::reverse(true_sorted_vector.begin(), true_sorted_vector.end());
+
+    BST<int>::Applicator func = [&](const int& nodeVal) {
+        sorted_vector.push_back(nodeVal);
+    };
+
+    tree1.traverse(BST<int>::traverse_type::MAXMIN, func);
+
+    ASSERT_EQ(sorted_vector, true_sorted_vector);
+}
+
+
+TEST_F(TreeTest, TestTraverseDirect) {
+    std::vector<int> values = {4, 2, 6, 1, 3, 5, 7};
+
+    for(auto v: values) {
+        tree1.insert(v);
+    }
+
+    std::vector<int> traverse_result;
+
+    BST<int>::Applicator func = [&](const int& nodeVal) {
+        traverse_result.push_back(nodeVal);
+    };
+
+    tree1.traverse(BST<int>::traverse_type::DIRECT, func);
+
+    std::vector<int> expected_result = {4, 2, 1, 3, 6, 5, 7};
+
+    ASSERT_EQ(traverse_result, expected_result);
+}
+
+TEST_F(TreeTest, TestTraverseReversed) {
+    std::vector<int> values = {4, 2, 6, 1, 3, 5, 7};
+
+    for(auto v: values) {
+        tree1.insert(v);
+    }
+
+    std::vector<int> traverse_result;
+
+    BST<int>::Applicator func = [&](const int& nodeVal) {
+        traverse_result.push_back(nodeVal);
+    };
+
+    tree1.traverse(BST<int>::traverse_type::REVERSED, func);
+
+    std::vector<int> expected_result = {1, 3, 2, 5, 7, 6, 4};
+
+    ASSERT_EQ(traverse_result, expected_result);
+}
+
+TEST_F(TreeTest, TestTraverseLevels) {
+    std::vector<int> values = {4, 2, 6, 1, 3, 5, 7};
+
+    for(auto v: values) {
+        tree1.insert(v);
+    }
+
+    std::vector<int> traverse_result;
+
+    BST<int>::Applicator func = [&](const int& nodeVal) {
+        traverse_result.push_back(nodeVal);
+    };
+
+    tree1.traverse(BST<int>::traverse_type::LEVELS, func);
+
+    std::vector<int> expected_result = values;
+
+    ASSERT_EQ(traverse_result, expected_result);
+}
+
 
 int main(int argc, char* argv[]) {
     ::testing::InitGoogleTest(&argc, argv);

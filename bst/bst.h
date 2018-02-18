@@ -6,9 +6,11 @@
 #include <memory> 
 #include <queue>
 
+namespace bst {
+
 template <class T>
 class TreeNode {
-   public:
+public:
     T val;
     TreeNode* left;
     TreeNode* right;
@@ -20,16 +22,24 @@ class TreeNode {
     }
 };
 
+class EmptyTree : std::exception {
+public:
+    virtual const char* what () const noexcept {
+        return "tree is empty";
+    }
+};
+
 template <class T, class Compare = std::less<T>>
 class BST {
-   public:
+public:
     // unary operator to apply to each nodevalue
     typedef std::function<void(const T&)> Applicator;
-    // unary operator to apply to each node with its id
-    typedef std::function<void(int id, const TreeNode<T>&)> NodeApplicator;
     enum traverse_type { DIRECT, REVERSED, MINMAX, MAXMIN, LEVELS };
 
-   private:
+private:
+    // unary operator to apply to each node with its id
+    typedef std::function<void(int id, const TreeNode<T>&)> NodeApplicator;
+
     size_t _size;
     TreeNode<T>* _root;
     Compare _cmp;
@@ -42,7 +52,7 @@ class BST {
         }
     }
 
-    void _insert(TreeNode<T>* node, const T& val) {
+    bool _insert(TreeNode<T>* node, const T& val) {
         // place to insert value
         TreeNode<T>** place;
         if (_cmp(val, node->val)) {
@@ -51,23 +61,30 @@ class BST {
             place = &node->right;
         } else {
             node->val = val;
-            return;
+            return false;
         }
 
-        if (*place)
+        if (*place) {
             return _insert(*place, val);
-        else
+        } else {
             *place = new TreeNode<T>(val);
+            _size++;
+            return true;
+        }
     }
 
-    TreeNode<T>** _find(TreeNode<T>** nodePtr, const T& val) {
+    TreeNode<T>** _find(TreeNode<T>** nodePtr, const T& val, int* comparisons=0) {
         TreeNode<T>* node = *nodePtr;
-        if (!node) return nullptr;
+        if (!node)
+            return nullptr;
+
+        if(comparisons)
+            (*comparisons)++;
 
         if (_cmp(val, node->val)) {
-            return _find(&((*nodePtr)->left), val);
+            return _find(&((*nodePtr)->left), val, comparisons);
         } else if (_cmp(node->val, val)) {
-            return _find(&((*nodePtr)->right), val);
+            return _find(&((*nodePtr)->right), val, comparisons);
         } else {
             return nodePtr;
         }
@@ -126,7 +143,8 @@ class BST {
         queue.push(node);
 
         while (queue.size()) {
-            auto node = queue.pop();
+            auto node = queue.front();
+            queue.pop();
             if (node) {
                 f(id++, *node);
                 queue.push(node->left);
@@ -140,6 +158,7 @@ class BST {
         if (!node->left && !node->right) {
             *nodePtr = nullptr;
             delete node;
+            _size--;
         } else if (!node->right) {
             TreeNode<T>** max_left = _find_max(&(node->left));
             std::swap(node->val, (*max_left)->val);
@@ -148,10 +167,10 @@ class BST {
             TreeNode<T>** min_right = _find_min(&(node->right));
             std::swap(node->val, (*min_right)->val);
             _remove(min_right);
-        } 
+        }
     }
 
-   public:
+public:
     BST() {
         _size = 0;
         _root = nullptr;
@@ -163,28 +182,41 @@ class BST {
 
     bool empty() { return _root == nullptr; }
 
-    void insert(const T& val) {
-        if (_root)
-            _insert(_root, val);
-        else
+    bool insert(const T& val) {
+        if (_root) {
+            return _insert(_root, val);
+        } else {
             _root = new TreeNode<T>(val);
-        _size++;
+            _size++;
+            return true;
+        }
     }
 
     bool remove(const T& val) {
-        if (empty()) return false;
+        if (empty())
+            return false;
 
         TreeNode<T>** nodePtr = _find(&_root, val);
-        if (!nodePtr) return false;
+        if (!nodePtr)
+            return false;
 
         _remove(nodePtr);
-        _size--;
         return true;
+    }
+
+    int find(const T& val) {
+        int comparisons = 0;
+        TreeNode<T>** result = _find(&_root, val, &comparisons);
+        if (result)
+            return comparisons;
+        else
+            return -comparisons;
     }
 
     T pop_min() {
         // VALUE, NOT BOOL
-        if(empty()) return false;
+        if(empty())
+            throw EmptyTree();
 
         TreeNode<T>** min = _find_min(&_root);
         T val = (*min)->val;
@@ -195,7 +227,8 @@ class BST {
     }
 
     T pop_max() {
-        if(empty()) return false;
+        if(empty())
+            throw EmptyTree();
 
         TreeNode<T>** max = _find_max(&_root);
         T val = (*max)->val;
@@ -254,4 +287,6 @@ class BST {
         out << "}";
     }
 };
+
+}
 #endif /* ifndef _AVL_H */
