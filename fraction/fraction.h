@@ -32,13 +32,16 @@ class fraction
 private:
     int _numerator;
     int _denominator;
+    size_t _id;
 
     void to_canonical(); // reduction to canonical form
+    static size_t max_id;
+    static size_t fractions_count;
 
 public:
     fraction(int numerator = 0, int denominator = 1);
     fraction(const fraction& f);
-    ~fraction() {}
+    ~fraction();
 
     static fraction from_string(const std::string& s);
 
@@ -47,11 +50,17 @@ public:
 
     int numerator() { return _numerator; }
     int denominator() { return _denominator; }
+    size_t id() { return _id; }
 
     fraction& operator = (const fraction& f);
     fraction& operator = (const int& decimal);
     fraction& operator = (const char* str);
     fraction& operator = (const std::pair<int, int>& pair);
+
+    fraction& operator ++ ();
+    fraction operator ++ (int);
+    fraction& operator -- ();
+    fraction operator -- (int);
 
     fraction& operator += (const fraction& f);
     fraction& operator -= (const fraction& f);

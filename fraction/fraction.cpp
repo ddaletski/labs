@@ -5,6 +5,9 @@
 
 typedef unsigned int uint;
 
+size_t fraction::max_id = 0;
+size_t fraction::fractions_count = 0;
+
 // the greatest common divisor
 int gcd(int a, int b) {
     if(abs(a) < abs(b))
@@ -39,12 +42,16 @@ fraction::fraction(int numerator, int denominator)
     _numerator = numerator;
     _denominator = denominator;
     to_canonical();
+    _id = max_id++;
+    fractions_count++;
 }
 
 fraction::fraction(const fraction &f)
 {
     _numerator = f._numerator;
     _denominator = f._denominator;
+    _id = max_id++;
+    fractions_count++;
 }
 
 fraction fraction::from_string(const std::string& s)
@@ -55,10 +62,17 @@ fraction fraction::from_string(const std::string& s)
     return f;
 }
 
+fraction::~fraction() {
+    fractions_count--;
+}
+
 ////////////////////////////////////////////////////
 ///
-fraction&fraction::operator =(const fraction& f)
+fraction& fraction::operator =(const fraction& f)
 {
+    if(_id == f._id)
+        return *this;
+
     _numerator = f._numerator;
     _denominator = f._denominator;
     return *this;
@@ -72,6 +86,28 @@ fraction&fraction::operator =(const std::pair<int, int>& pair)
     _denominator = pair.second;
     to_canonical();
     return *this;
+}
+
+fraction&fraction::operator ++() {
+    _numerator += _denominator;
+    return *this;
+}
+
+fraction fraction::operator ++(int) {
+    fraction f(*this);
+    ++(*this);
+    return f;
+}
+
+fraction&fraction::operator --() {
+    _numerator -= _denominator;
+    return *this;
+}
+
+fraction fraction::operator --(int) {
+    fraction f(*this);
+    --(*this);
+    return f;
 }
 
 fraction&fraction::operator =(const char* str)

@@ -177,6 +177,32 @@ TEST_F(FractionTest, testSub) {
     ASSERT_EQ(f1, fraction(-2, 3));
 }
 
+TEST_F(FractionTest, testInc) {
+    fraction f1(2, 3);
+    fraction f2(-2, 3);
+
+    ASSERT_EQ(++f1, fraction(5, 3));
+    ASSERT_EQ(f1++, fraction(5, 3));
+    ASSERT_EQ(f1, fraction(8, 3));
+
+    ASSERT_EQ(++f2, fraction(1, 3));
+    ASSERT_EQ(f2++, fraction(1, 3));
+    ASSERT_EQ(f2, fraction(4, 3));
+}
+
+TEST_F(FractionTest, testDec) {
+    fraction f1(2, 3);
+    fraction f2(-2, 3);
+
+    ASSERT_EQ(--f1, fraction(-1, 3));
+    ASSERT_EQ(f1--, fraction(-1, 3));
+    ASSERT_EQ(f1, fraction(-4, 3));
+
+    ASSERT_EQ(--f2, fraction(-5, 3));
+    ASSERT_EQ(f2--, fraction(-5, 3));
+    ASSERT_EQ(f2, fraction(-8, 3));
+}
+
 
 ///////////////////////////////////////////
 // other
@@ -185,8 +211,14 @@ TEST_F(FractionTest, testInvert) {
     fraction f1(2, 3);
     fraction f2(3, 2);
 
+    fraction f3(-4, 5);
+    fraction f4(-5, 4);
+
     ASSERT_EQ(!f1, f2);
     ASSERT_EQ(!!f1, f1);
+
+    ASSERT_EQ(!f3, f4);
+    ASSERT_EQ(!!f3, f3);
 }
 
 TEST_F(FractionTest, testNegate) {

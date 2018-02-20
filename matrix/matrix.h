@@ -2,7 +2,6 @@
 #define MATRIX_H
 
 #include <cstdlib>
-#include <initializer_list>
 #include <functional>
 #include <iomanip>
 #include <iostream>
@@ -15,9 +14,7 @@ public:
     OutOfBoundsException(const std::string& message = "index is out of bounds") {
         _what_info = message;
     }
-    virtual ~OutOfBoundsException() {}
-
-    const char* what() const noexcept { return _what_info.c_str(); }
+    virtual const char* what() const noexcept { return _what_info.c_str(); }
 };
 
 
@@ -27,16 +24,14 @@ public:
     WrongDimensionException(const std::string& message = "inappropriate dimension") {
         _what_info = message;
     }
-    ~WrongDimensionException() { }
-
-    const char* what() const noexcept { return _what_info.c_str(); }
+    virtual const char* what() const noexcept { return _what_info.c_str(); }
 };
 
 
 class ZeroDivisionException : std::exception {
     std::string what_info = "zero division exception occured\n";
 public:
-    const char* what() const noexcept { return what_info.c_str(); }
+    virtual const char* what() const noexcept { return what_info.c_str(); }
 };
 
 
@@ -112,7 +107,7 @@ public:
         _fill(func);
     }
 
-    explicit matrix(const matrix& m) {
+    matrix(const matrix& m) {
         ID = ++max_count_of_instances;
         count_of_instances++;
         _rows = m._rows;
@@ -147,15 +142,15 @@ public:
         return _data[row];
     }
 
-    T& operator [] (std::initializer_list<int> list) noexcept {
-        return _data[*list.begin()][*list.begin()+1];
+    T& at(uint row, uint col) {
+        if(row >= _rows)
+            throw OutOfBoundsException("row index is out of bounds");
+        if(col >= _cols)
+            throw OutOfBoundsException("column index is out of bounds");
+        return _data[row][col];
     }
 
-    T& at(uint row, uint col) {
-        if(row > _rows)
-            throw OutOfBoundsException("row index is out of bounds");
-        if(col > _cols)
-            throw OutOfBoundsException("column index is out of bounds");
+    T& operator () (uint row, uint col) {
         return _data[row][col];
     }
 
@@ -294,8 +289,14 @@ public:
         return product;
     }
 
-    matrix operator * (const matrix& m) {
-        return this->dot(m);
+    matrix transpose() {
+        matrix transposed(*this);
+
+        for(uint i = 0; i < transposed._rows; ++i)
+            for(uint j = 0; j < transposed._cols; ++j)
+                swap(transposed[i][j], transposed[j][i]);
+
+        return transposed;
     }
 
     /////////////////////////////////////////////////////////////
