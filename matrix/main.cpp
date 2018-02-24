@@ -1,6 +1,18 @@
 #include <iostream>
 #include "matrix.h"
 
+template<class T>
+void fill_console(matrix<T>& matrix) {
+    std::cout << "filling matrix with " << \
+        _rows << " rows and " << \
+        _cols << " columns\n";
+    for(uint i = 0; i < _rows; ++i) {
+        std::cout << "[" << i << "] row: ";
+        for(uint j = 0; j < _cols; ++j)
+            std::cin >> matrix[i][j];
+    }
+}
+
 
 int main()
 {
@@ -45,18 +57,19 @@ int main()
         std::cout << "B = \n" << B << std::endl;
         std::cout << "AB = \n" << A * B << std::endl;
     } catch (WrongDimensionException& ex) {
-        std::cout << ex.what() << std::endl;
+        std::cout << "\033[1;31m" <<  ex.what() << "\033[m\n";
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
     // input operator
 
-    m.fill_console();
+    fill_console(m);
     std::cout << "result:\n" << m << std::endl;
 
     ////////////////////////////////////////////////////////////////////////////////////
     // zero division
 
+    std::cout << "trying to divide each element by zero\n";
     try {
         std::cout << m / 0 << std::endl;
     } catch (ZeroDivisionException& ex) {

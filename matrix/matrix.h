@@ -165,7 +165,7 @@ public:
         return stream;
     }
 
-    void print(std::ostream& stream) {
+    void print(std::ostream& stream = std::cout) {
         stream << *this << std::endl;
     }
 
@@ -176,17 +176,6 @@ public:
             for(uint j = 0; j < m._cols; ++j)
                 stream >> m._data[i][j];
         return stream;
-    }
-
-    void fill_console() {
-        std::cout << "filling matrix with " << \
-                     _rows << " rows and " << \
-                     _cols << " columns\n";
-        for(uint i = 0; i < _rows; ++i) {
-            std::cout << "[" << i << "] row: ";
-            for(uint j = 0; j < _cols; ++j)
-                std::cin >> _data[i][j];
-        }
     }
 
     /////////////////////////////////////////////////////
@@ -276,9 +265,9 @@ public:
     }
     //////////////////////////////////////////////////////////////
 
-    matrix dot(const matrix& m) {
+    matrix operator * (const matrix& m) {
         if(_cols != m._rows)
-            throw WrongDimensionException("dot product requires M1.cols == M2.rows");
+            throw WrongDimensionException("matrix multiplication requires M1.cols == M2.rows");
 
         matrix product(_rows, m._cols);
         for(uint i = 0; i < _rows; ++i)
