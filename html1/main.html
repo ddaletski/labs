@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<style type="text/css">
 		body, html {
-			height: 480px;
+			height: 90%;
 			padding: 0;
 		}
 		#header {
@@ -15,8 +15,7 @@
 			text-align: left;
 			padding: 5px;
 			clear: both;
-		}
-		#nav {
+		} #nav {
 			float: left;
 			line-height: 30px;
 			background-color: #eeeeee;
@@ -53,9 +52,7 @@
 			padding: 8px 0 8px 16px;
 			text-decoration: none;
 		} 	
-		#nav li a.nv:hover {
-			background-color: "black";
-			color: white;
+		#nav li a.nv:hover { background-color: "black"; color: white;
 		}
 	</style>
 </head>
@@ -65,22 +62,23 @@
 		<img src="logo1.jpg" id="logo">
 		<h1>enis Daletski</h1>
 	</div>
-<div id="nav"> <ul><b>Разделы:</b> 
-			<li><a href="home.html" target="iframe_main" onclick="clicked(this)">
-				Домашняя страница</a>
-			</li>
-<!--			<li><a href="bio.html" target="iframe_main" onclick="clicked(this)">
-				Биография</a>
-			</li>
--->
-			<li><a href="edu.html" target="iframe_main" onclick="clicked(this)">
-				Обучение</a>
-			</li>
-			<li><a href="galery.html" target="iframe_main" onclick="clicked(this)">
-				Фотоальбом</a>
-			</li>
-		</ul>
-	</div>
+    <div id="nav">
+        <ul><b>Разделы:</b> 
+            <li><a href="home.html" target="iframe_main" onclick="clicked(this)">
+                    Домашняя страница</a>
+            </li>
+            <!--			<li><a href="bio.html" target="iframe_main" onclick="clicked(this)">
+                Биография</a>
+                </li>
+            -->
+            <li><a href="edu.html" target="iframe_main" onclick="clicked(this)">
+                    Обучение</a>
+            </li>
+            <li><a href="galery.html" target="iframe_main" onclick="clicked(this)">
+                    Фотоальбом</a>
+            </li>
+        </ul>
+    </div>
 
 	<div id="section">
 		<iframe  src="home.html" id="iframe_main" name="iframe_main" frameborder="0"></iframe>
