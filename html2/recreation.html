@@ -1,10 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title></title>
+	<meta charset="utf-8">
+	<title>Базы отдыха Браслава</title>
+    <link rel="stylesheet" type="text/css" href="styles/common.css">
+    <script src="./js/jquery.js"></script>
+	<script src="./js/build_left_menu.js"></script>
+    <style>
+    	section {
+    		background-color: LemonChiffon;
+    	}
+    	.description {
+    		color:rgb(205,55,0);
+
+    	}
+    	.title {
+    		color:rgb(139,26,26);
+    	}
+    	#subtitle {
+    		text-align: center;
+    		color: Brown;
+    	}
+    	.image_row {
+    		display: inline-block;
+    		width:32%;
+    		height:30%; 
+    	}
+    </style>
 </head>
 <body>
-    <img src="img/recreation/download.jpeg">
+<header>
+</header>
+
+<aside>
+</aside>
+
+<section>
+ 	<div >
+ 		<h1 class="title">Базы отдыха</h1>
+ 		<h3 id="subtitle">
+ 			Если вы планируете свой отдых в Белорусии, то Браславские озера - это именно то, что вам нужно.
+ 			<br> Не зря этот край называют белорусской Швейцарией. Самые живописные места, огромное количество озер , <br>
+ 			которые занимают почти 10% площади Браславского района. </h3>
+	</div>
+	<div class="item-block" summary="База отдыха Леошки">
+		<h2 class="description">База отдыха Леошки</h2>
+		<h3 class="description"><em>Уединенное место отдыха, окаймлено одним из чистейших в Европе озер и лесом. 
+			<br>Здесь найдут свой уютный уголок не только романтичные парочки, но и большие дружные компании! <br>
+		Уникальной возможностью здесь является подводное плавание - прозрачность воды до 5 метров!</em></h3>
+		<div class="image_in_row">
+			<img class="image_row" src="img/recreation/2.jpg">
+			<img class="image_row" src="img/recreation/3.jpg">
+			<img class="image_row" src="img/recreation/4.jpg">
+		</div>
+	</div>
+	<div class="item-block" summary="База отдыха Слободка">
+		<h2 class="description">База отдыха Слободка</h2>
+		<h3 class="description"<em>База отдыха «Слободка» расположена в изумительно живописной местности у подножия знаменитой <br>озовой гряды на окраине деревни Слободка в 12 км от г. Браслава по трассе Браслав – Друя. </em></h3>
+		<div class="image_in_row">
+			<img class="image_row" src="img/recreation/8.jpg">
+			<img class="image_row" src="img/recreation/9.jpg">
+			<img class="image_row" src="img/recreation/10.jpg">
+		</div>
+	</div>
+	<div class="item-block" summary="База отдыха">
+		<h2 class="description"> Турбаза Дривяты</h2>
+		<h3 class="description"><em>Туристический комплекс «Дривяты» расположен на одном из красивейших озер национального парка «Браславские озера».</em></h3>
+		<div class="image_in_row">
+			<img class="image_row" src="img/recreation/4.jpg">
+			<img class="image_row" src="img/recreation/5.jpg">
+			<img class="image_row" src="img/recreation/6.jpg">
+		</div>
+	</div>
+</section>
 </body>
 </html>
