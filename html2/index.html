@@ -4,40 +4,17 @@
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" type="text/css"href="styles/index.css">
+        <script src="js/jquery.js"></script>
     </head>
+
     <body onload="clicked_default()">
-        <div id="header">
-            <ul>
-                <li>
-                    <a class='menuLink' href="home.html" target="iframe_main" onclick="clicked(this)">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a class='menuLink' href="universities.html" target="iframe_main" onclick="clicked(this)">
-                        Universities
-                    </a>
-                </li>
-                <li>
-                    <a class='menuLink' href="moocs.html" target="iframe_main" onclick="clicked(this)">
-                        MOOCs
-                    </a>
-                </li>
-                <li>
-                    <a class='menuLink' href="coding_schools.html" target="iframe_main" onclick="clicked(this)">
-                        Coding schools
-                    </a>
-                </li>
-            </ul>
-        </div>
+
+
 
         <div id="section">
             <iframe  src="home.html" id="iframe_main" name="iframe_main" frameborder="0"></iframe>
         </div>
 
-        <div id="footer">
-            <p>Denis Daletski, 2018</p>
-        </div>
 
 
         <script>
@@ -53,6 +30,7 @@
                 links = document.getElementsByClassName("menuLink")
                 clicked(links[0])
             }
+
         </script>
 
     </body>

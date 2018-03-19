@@ -1,0 +1,127 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: aliceblue;
+}
+
+header {
+    width: 100%;
+    clear: both;
+}
+
+#main_container {
+    overflow-y: auto;
+    background-color: LightSteelBlue;
+    width: 100%;
+}
+
+section {
+    background-color: LightSteelBlue;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+}
+
+footer {
+    clear: both;
+    width: 100%;
+}
+
+#footer {
+    padding: 3px;
+    padding-left: 10px;
+}
+
+#header-title {
+    color: black;
+    text-align: center;
+    margin: auto;
+    clear: both;
+    overflow: auto;
+    background-image: url(../img/header-bg.jpg);
+    background-size: cover;
+}
+
+#header-title .header-logo {
+    float: left;
+    padding: 15px;
+}
+
+#header-title .header-title {
+    font-size: 300%;
+    text-align: left;
+    font-weight: bold;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#header-menu {
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    clear: both;
+}
+
+#header-menu ul {
+    padding: 3px;
+    padding-bottom: 10px;
+    list-style:none;
+    direction:ltr;
+}
+
+#header-menu ul li {
+    display: inline;
+    padding: 10px;
+}
+
+
+#header-menu ul li a {
+    display: inline-block;
+    font-size: x-large;
+}
+
+.title {
+    font-family: fantasy;
+    font-size:xx-large;
+    text-align: center;
+    color:	MidnightBlue;
+}
+
+.main {
+    text-align: center;
+    color: rgb(39,64,139) ;
+    font-variant: small-caps;
+
+}
+
+.image_in_row {
+    margin: auto;
+    text-align: center
+}
+
+#image_braslav {
+    width: 500px;
+    height: 200px;
+}
+
+.item-block {
+    width: 80%;
+    margin: auto;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.image {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.description {
+    font-weight: bolder;
+    text-align: left;
+    color: rgb(0, 0, 139);
+}
