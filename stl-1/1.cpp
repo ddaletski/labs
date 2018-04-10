@@ -107,9 +107,13 @@ int main()
     auto end = vec.end();
     for (auto it = vec.begin(); it < end; ++it) {
         end = std::remove(it+1, end, *it);
+        end = std::remove(it+1, end, -(*it));
     }
     vec = std::vector<int>(vec.begin(), end);
 
+    std::cout << COLOR_GREEN <<
+                 "Вектор после удаления повторений: " <<
+                 COLOR_RESET << std::endl;
     std::cout << vec << std::endl;
 
     return 0;
