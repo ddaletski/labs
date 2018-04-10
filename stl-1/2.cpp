@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <regex>
 
 
@@ -43,7 +44,6 @@ int main(int argc, char* argv[]) {
     std::string buf;
     while(true) {
         std::getline(infile, buf);
-        std::cout << buf << std::endl;
         std::match_results<std::string::const_iterator> match;
         if(!std::regex_match(buf, match, expr)) {
             break;
@@ -65,13 +65,13 @@ int main(int argc, char* argv[]) {
         return (s1.name < s2.name) + 2 * (s1.group < s2.group) + 4 * (s1.grade < s2.grade);
     });
 
-    for(auto it = students.begin(); it != students.end(); ++it) {
-        outfile1 << *it << "\n";
-    }
+    std::for_each(students.begin(), students.end(), [&](const Student& s) {
+        outfile1 << s << "\n";
+    });
 
-    for (auto it = students.begin(); it != students.end(); ++it) {
-        outfile2 << *it << "\n";
-    }
+    std::for_each(students2.begin(), students2.end(), [&](const Student& s) {
+        outfile2 << s << "\n";
+    });
 
     return 0;
 }
