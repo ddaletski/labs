@@ -104,7 +104,7 @@ int main(int argc, char* argv[]) {
     std::cout << trains << std::endl;
 
     std::string rangeStart = "08:00";
-    std::string rangeEnd = "19:00";
+    std::string rangeEnd = "12:00";
     auto trainsInRange = findAll(trains.begin(), trains.end(), [&](const Train& t) {
         return timeToMins(t.departTime) >= timeToMins(rangeStart) &&
                timeToMins(t.departTime) <= timeToMins(rangeEnd);
@@ -132,8 +132,8 @@ int main(int argc, char* argv[]) {
 
     auto fastestTrainToPoint = *std::max_element(trainsToPoint.begin(),
                                                 trainsToPoint.end(),
-                                                [](const Train& t1, const Train& t2) {
-        return t1.rideTime < t2.rideTime;
+                                                [&](const Train& t1, const Train& t2) {
+        return t1.rideTime > t2.rideTime;
     });
 
     std::cout << "Самый быстрый поезд, отправляющийся в " << arrivalPoint << ": ";

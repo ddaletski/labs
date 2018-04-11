@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <regex>
+#include <locale>
 
 
 struct Student {
@@ -40,12 +41,15 @@ int main(int argc, char* argv[]) {
     std::ofstream outfile2 (outname2);
 
     std::vector<Student> students;
-    std::regex expr("[ ]*([a-zA-Z ]+?)[ ]*;[ ]*([0-9]+)[ ]*;[ ]*([0-9]+)[ ]*");
+    std::regex expr("[ ]*([^;]+?)[ ]*;[ ]*([0-9]+)[ ]*;[ ]*([0-9]+)[ ]*");
     std::string buf;
     while(true) {
         std::getline(infile, buf);
+        if(buf == "")
+            break;
         std::match_results<std::string::const_iterator> match;
         if(!std::regex_match(buf, match, expr)) {
+            std::cout << "Ошибка в строке " << buf << std::endl;
             break;
         }
 
@@ -62,7 +66,19 @@ int main(int argc, char* argv[]) {
     });
 
     std::sort(students2.begin(), students2.end(), [](const Student& s1, const Student& s2) {
-        return (s1.name < s2.name) + 2 * (s1.group < s2.group) + 4 * (s1.grade < s2.grade);
+        if(s1.grade < s2.grade)
+            return true;
+        else if (s1.grade > s2.grade)
+            return false;
+        else {
+            if (s1.group < s2.group)
+                return true;
+            else if (s1.group > s2.group)
+                return false;
+            else {
+                return s1.name < s2.name;
+            }
+        }
     });
 
     std::for_each(students.begin(), students.end(), [&](const Student& s) {
