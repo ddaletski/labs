@@ -1,0 +1,6 @@
+1523253
+Denis Daletski
+math: 8; programming: 10; english: 2
+1232421
+Some Person
+english: 3; physics: 10; programming: 8
