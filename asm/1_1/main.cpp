@@ -2,7 +2,7 @@
 
 
 int f1(int x) {
-	return (pow(x, 5) + 2 * (x*x - 4) + x) / pow(x, 3);
+	return (pow(double(x), 5) + 2 * (x*x - 4) + x) / pow(double(x), 3);
 }
 
 int f2(int x) {
