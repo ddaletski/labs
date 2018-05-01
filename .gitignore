@@ -2,3 +2,11 @@ build-*
 build
 CMakeLists.txt.user
 a.out
+x64
+x86
+Debug
+Release
+ipch
+*.VC.db
+*.VC.opendb
+.vs
