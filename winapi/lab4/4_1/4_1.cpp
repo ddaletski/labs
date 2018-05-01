@@ -1,5 +1,7 @@
-// 4_1.cpp : Defines the entry point for the application.
-//
+п»ї// 4_1.cpp : Defines the entry point for the application.
+ // 
+
+#define UNICODE
 
 #include "stdafx.h"
 #include "4_1.h"
@@ -237,7 +239,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		HFONT font;
 		font = CreateFont(currentSize / 10, 0, 0, 0, 0, 0, 0, 0, RUSSIAN_CHARSET, 0, 0, 0, 0, TEXT("Arial"));
 		SelectObject(hdc, font);
-		DrawText(hdc, TEXT("Далецкий Д."), 8, &textRect, DT_BOTTOM | DT_RIGHT | DT_SINGLELINE);
+		DrawText(hdc, TEXT("Р”Р°Р»РµС†РєРёР№"), 8, &textRect, DT_BOTTOM | DT_RIGHT | DT_SINGLELINE);
 		DeleteObject(font);
 
 		EndPaint(hWnd, &ps);

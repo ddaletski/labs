@@ -150,7 +150,7 @@ void drawArrow(HDC hdc, int centerX, int centerY, int len, double angle) {
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	constexpr int speed = 1;
+	constexpr int speed = 10;
 	constexpr double secondAngle = 2 * M_PI / 60;
 	constexpr double minuteAngle = secondAngle;
 	constexpr double hourAngle = 2 * M_PI / 24;
