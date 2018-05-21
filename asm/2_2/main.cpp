@@ -143,7 +143,6 @@ std::pair<bool, std::vector<char>> palindrome(const std::vector<char>& digits) {
 			pop ecx;
 			pop ebx;
 			pop eax;
-
 	}
 
 	return std::make_pair(possible, result);
@@ -156,6 +155,11 @@ void checkSequence(const std::vector<char>& seq) {
 		std::cout << int(seq[i]) << " ";
 	}
 	std::cout << std::endl;
+
+	if (!seq.size()) {
+		std::cout << "empty sequence" << std::endl << std::endl;
+		return;
+	}
 
 	std::pair<bool, std::vector<char>> result = palindrome(seq);
 

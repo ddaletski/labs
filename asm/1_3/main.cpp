@@ -86,7 +86,7 @@ int main() {
 	auto factors = factorize(2*2*2*3*5*7*11*19);
 	print_factors(factors);
 
-	auto asm_factors = factorize_asm(2 * 2 * 2 * 3 * 5 * 7 * 11 * 19);
+	auto asm_factors = factorize_asm(2 * 2 * 2 * 3 * 5 * 7 * 11 * 19 * 2);
 	print_factors(asm_factors);
 
 	system("pause");
