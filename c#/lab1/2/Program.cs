@@ -14,19 +14,16 @@ namespace _2
             return x * x + y * y <= r * r;
         }
 
-        static bool isInSector(double x, double y, bool neg=false)
+        static bool isInSector(double x, double y)
         {
             double theta = Math.Atan(y / x);
             bool result = theta >= Math.PI / 4 && theta <= Math.PI / 2;
-            if (neg)
-                return !result;
-            else
-                return result;
+            return result;
         }
 
         static bool isInAim(double x, double y, double r)
         {
-            return isInCircle(x, y, r) && (isInSector(x, y) || isInSector(-x, -y, true));
+            return isInCircle(x, y, r) && (isInSector(x, y));
         }
 
         static void Main(string[] args)

@@ -8,16 +8,18 @@ namespace _3
 {
     class Program
     {
-        static double Taylor(double x, double eps)
+        static double Taylor(double x, double eps, ref int n)
         {
             double multiplier = 1 / x;
             double sum = 0;
 
-            for(double i = 1; Math.Abs(multiplier) >= eps; ++i)
+            double i = 1; 
+            for(i = 1; Math.Abs(multiplier) >= eps; ++i)
             {
                 sum += multiplier;
                 multiplier *= (i * 2 - 1) / (i * 2 + 1) / x / x;
             }
+            n = Convert.ToInt32(i);
             return 2 * sum;
         }
 
@@ -45,12 +47,13 @@ namespace _3
             int steps = Convert.ToInt32(Math.Floor((xr - xl) / stepSize));
 
             List<string[]> table = new List<string[]>();
-            table.Add(new[] { "x", "taylor", "library" });
+            table.Add(new[] { "x", "taylor", "library", "taylor steps" });
 
+            int totalSteps = 0;
             for(double i = 0; i <= steps; ++i)
             {
                 double x = xl + stepSize * i;
-                table.Add(new[] { Convert.ToString(x), Convert.ToString(Taylor(x, eps)), Convert.ToString(Library(x)) });
+                table.Add(new[] { Convert.ToString(x), Convert.ToString(Taylor(x, eps, ref totalSteps)), Convert.ToString(Library(x)), Convert.ToString(totalSteps) });
             }
 
             string result = tableView.ArrayPrinter.GetDataInTableFormat(table, "ln((1-x)/(1+x))");
