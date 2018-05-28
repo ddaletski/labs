@@ -9,12 +9,31 @@ dst db 1000 dup(0)
 .code
 
 
+clean_freq proc
+mov eax, 0;
+
+loop_start:
+cmp eax, 10;
+jge end_end;
+mov freq[eax], 0;
+inc eax;
+jmp loop_start;
+
+end_end: 
+ret
+clean_freq endp
+
+
 @can_be_palindrome@8 proc
 	; ecx is sequence
 	; edx is seq size
 
+	call clean_freq;
+
 	push ebx;
 	push esi;
+	push edx;
+	push ecx;
 
 	mov size_, edx;
 	mov esi, edx;
@@ -124,13 +143,41 @@ dst db 1000 dup(0)
 		jmp very_end;
 
 	very_end:
+	    pop ecx;
+		pop edx;
 		pop esi;
 		pop ebx;
-
 	ret
 @can_be_palindrome@8 endp
 
 
-;----------------------------------------------
+_can_be_palindrome2 proc
+	push ebp	
+	mov	ebp, esp	
+    push ecx;
+	push edx;
+
+	mov	ecx, [ebp+8]
+	mov	edx, [ebp+12]
+	call @can_be_palindrome@8
+
+	pop edx;
+	pop ecx;
+	pop ebp;
+	ret
+_can_be_palindrome2 endp
+
+
+can_be_palindrome3 proc stdcall, seq:dword, n:dword
+push ecx;
+push edx;
+mov ecx, seq;
+mov edx, n;
+call @can_be_palindrome@8
+pop edx;
+pop ecx;
+ret 8
+can_be_palindrome3 endp
+
+
 END
-;----------------------------------------------
