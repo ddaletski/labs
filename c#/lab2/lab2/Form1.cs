@@ -18,6 +18,7 @@ namespace lab2
             entryForm = new EntryInfoForm();
             entryForm.Visible = false;
             students = new List<Student>();
+            dataGridView1.DataSource = students;
         }
 
         private void button1_Click(object sender, EventArgs e)
