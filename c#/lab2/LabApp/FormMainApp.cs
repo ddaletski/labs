@@ -13,7 +13,7 @@ namespace LabApp
 {
     public partial class FormMainApp : Form
     {
-        List<Student> collections = new List<Student>();
+        List<Student> collection = new List<Student>();
 
         public FormMainApp()
         {
@@ -25,7 +25,7 @@ namespace LabApp
             FormAddFromKeyboard form = new FormAddFromKeyboard();
             form.ShowDialog();
             if (form.isNew)
-                collections.Add(form.GetStudent());
+                collection.Add(form.GetStudent());
             Print();
         }
 
@@ -62,7 +62,7 @@ namespace LabApp
                                 {
                                     st.rating[j] = Convert.ToUInt16(grades[j]);
                                 }
-                                collections.Add(st);
+                                collection.Add(st);
                             }
                             Print();
                         }
@@ -94,7 +94,7 @@ namespace LabApp
                         using (myStream)
                         {
                             byte[] input = { };
-                            foreach (var item in collections)
+                            foreach (var item in collection)
                             {
                                 string grades = "";
                                 for (int i = 0; i < item.rating.Length; i++)
@@ -120,12 +120,12 @@ namespace LabApp
         private void Print()
         {
             rtbCollection.Clear();
-            if (collections.Count > 0)
-                foreach (var item in collections)
+            if (collection.Count > 0)
+                foreach (var item in collection)
                 {
                     rtbCollection.Text += "Fullname: " + item.fullName + "\n";
                     rtbCollection.Text += "Group: " + item.group + "\n";
-                    rtbCollection.Text += "Grade:";
+                    rtbCollection.Text += "Rating:";
                     for (int i = 0; i < item.rating.Length; i++)
                     {
                         rtbCollection.Text += " " + item.rating[i];
@@ -136,13 +136,13 @@ namespace LabApp
 
         private void btnSearchBy_Click(object sender, EventArgs e)
         {
-            FormSearch form = new FormSearch(collections);
+            FormSearch form = new FormSearch(collection);
             form.ShowDialog();
         }
 
         private void btnShowAllByCondition_Click(object sender, EventArgs e)
         {
-            FormCondition form = new FormCondition(collections);
+            FormCondition form = new FormCondition(collection);
             form.ShowDialog();
         }
 
@@ -152,9 +152,9 @@ namespace LabApp
             form.ShowDialog();
             if (form.isDelete)
             {
-                if (collections.Count > form.index)
+                if (collection.Count > form.index)
                 {
-                    collections.RemoveAt(form.index);
+                    collection.RemoveAt(form.index);
                     Print();
                 }
             }
@@ -163,12 +163,17 @@ namespace LabApp
         private void rb_CheckedChanged(object sender, EventArgs e)
         {
             if (rbFullname.Checked)
-                collections.Sort((x, y) => x.fullName.CompareTo(y.fullName));
+                collection.Sort((x, y) => x.fullName.CompareTo(y.fullName));
             else if (rbGrade.Checked)
-                collections.Sort((x, y) => x.rating[0].CompareTo(y.rating[0]));
+                collection.Sort((x, y) => x.meanRating().CompareTo(y.meanRating()));
             else
-                collections.Sort((x, y) => x.group.CompareTo(y.group));
+                collection.Sort((x, y) => x.group.CompareTo(y.group));
             Print();
+        }
+
+        private void rtbCollection_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
