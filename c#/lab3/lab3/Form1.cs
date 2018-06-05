@@ -34,7 +34,7 @@ namespace lab3
         private void calcToolStripMenuItem_Click(object sender, EventArgs e)
         {
             resultForm.SetTriangle(triangle);
-            resultForm.Show();
+            resultForm.ShowDialog();
         }
 
         private FormInput inputForm;
