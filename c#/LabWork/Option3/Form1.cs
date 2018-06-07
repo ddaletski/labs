@@ -15,6 +15,10 @@ namespace Option3
     {
         public static Color c;
         public static int f;
+        public static double a = 1;
+        public static double Xmin = -Math.PI / 2;
+        public static double Xmax = Math.PI / 2;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,13 +32,11 @@ namespace Option3
         private void buildToolStripMenuItem_Click(object sender, EventArgs e)
         {
             chart1.Series.Clear();
-            chart1.Series.Add("Синусоида");
-            chart1.Series["Синусоида"].ChartType = SeriesChartType.Line;
-            chart1.Series["Синусоида"].Color = c;
+            chart1.Series.Add("func");
+            chart1.Series["func"].ChartType = SeriesChartType.Line;
+            chart1.Series["func"].Color = c;
 
-            double Xmin = -Math.PI / 2;
-            double Xmax = Math.PI / 2;
-            double Step = Math.PI / 16;
+            double Step = (Xmax - Xmin) / 10;
 
             int count = (int)Math.Ceiling((Xmax - Xmin) / Step) + 1;
 
@@ -47,16 +49,20 @@ namespace Option3
                 switch (f)
                 {
                     case 0:
-                        y[i] = Math.Sin(x[i]);
+                        y[i] = Math.Log(x[i] * a);
+                        chart1.Series["func"].LegendText = "ln(ax)";
                         break;
                     case 1:
-                        y[i] = Math.Sin(x[i] + Math.PI / 4);
+                        y[i] = Math.Log(x[i] + a);
+                        chart1.Series["func"].LegendText = "ln(a+x)";
                         break;
                     case 2:
-                        y[i] = Math.Cos(x[i]);
+                        y[i] = 1.0 / Math.Log(x[i] + a);
+                        chart1.Series["func"].LegendText = "1/ln(a+x)";
                         break;
                     case 3:
-                        y[i] = Math.Cos(x[i] + Math.PI / 4);
+                        y[i] = Math.Pow(Math.Log(x[i] * a), 2);
+                        chart1.Series["func"].LegendText = "ln^2(ax)";
                         break;
                 }
                 

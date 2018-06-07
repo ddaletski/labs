@@ -40,19 +40,19 @@ namespace Lab12V1
             Pen blackPen = new Pen(Color.Black, 1);
 
             //морда
-            Rectangle rect1 = new Rectangle(x - 10, y - 10, 20, 20);
+            Rectangle rect1 = new Rectangle(x - 30, y - 30, 60, 60);
             g.DrawEllipse(blackPen, rect1);
 
             //левый глаз
-            Rectangle rect2 = new Rectangle(x - 5, y - 4, 3, 3);
+            Rectangle rect2 = new Rectangle(x - 15, y - 8, 6, 6);
             g.DrawEllipse(blackPen, rect2);
 
             //правый глаз
-            Rectangle rect3 = new Rectangle(x + 2, y - 4, 3, 3);
+            Rectangle rect3 = new Rectangle(x + 15, y - 8, 6, 6);
             g.DrawEllipse(blackPen, rect3);
 
             //рот
-            Rectangle rect4 = new Rectangle(x - 5, y + 2, 10, 5);
+            Rectangle rect4 = new Rectangle(x - 15, y + 12, 30, 5);
             float startAngle = 180.0F;
             float sweepAngle = 180.0F;
             g.DrawArc(blackPen, rect4, startAngle, sweepAngle);

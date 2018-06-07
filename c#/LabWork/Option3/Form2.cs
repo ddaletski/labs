@@ -19,6 +19,9 @@ namespace Option3
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Form1.a = Convert.ToDouble(textBox1.Text);
+            Form1.Xmin = Convert.ToDouble(textBox2.Text);
+            Form1.Xmax = Convert.ToDouble(textBox3.Text);
             switch (listBox1.SelectedIndex)
             {
                 case 0:
@@ -37,20 +40,66 @@ namespace Option3
             switch (listBox2.SelectedIndex)
             {
                 case 0:
+                    if(Form1.Xmin * Form1.a <= 0 && Form1.Xmax * Form1.a >= 0)
+                    {
+                        MessageBox.Show("Invalid range or param 'a' for this function");
+                        return;
+                    }
                     Form1.f = 0;
                     break;
                 case 1:
+                    if((Form1.Xmin + Form1.a <= 0 && Form1.Xmax + Form1.a >= 0))
+                    {
+                        MessageBox.Show("Invalid range or param 'a' for this function");
+                        return;
+                    }
                     Form1.f = 1;
                     break;
                 case 2:
+                    if((Form1.Xmin + Form1.a <= 0 && Form1.Xmax + Form1.a >= 0)
+                        || (Form1.Xmin + Form1.a <= 1 && Form1.Xmax + Form1.a >= 1))
+                    {
+                        MessageBox.Show("Invalid range or param 'a' for this function");
+                        return;
+                    }
                     Form1.f = 2;
                     break;
                 case 3:
+                    if(Form1.Xmin * Form1.a <= 0 && Form1.Xmax * Form1.a >= 0)
+                    {
+                        MessageBox.Show("Invalid range or param 'a' for this function");
+                        return;
+                    }
                     Form1.f = 3;
                     break;
             }
             (Application.OpenForms["Form1"].Controls["menuStrip1"] as MenuStrip).Items[1].Enabled = true;
+
             this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
         }
     }
 }

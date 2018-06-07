@@ -49,7 +49,7 @@ namespace LabApp
                         {
                             byte[] array = new byte[myStream.Length];
                             myStream.Read(array, 0, array.Length);
-                            string textFromFile = Encoding.Default.GetString(array);
+                            string textFromFile = Encoding.UTF8.GetString(array);
                             string[] lines = textFromFile.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                             for (int i = 0; i < lines.Length; i+=3)
                             {
@@ -102,7 +102,7 @@ namespace LabApp
                                     grades += item.rating[i].ToString();
                                     if (i < item.rating.Length - 1) grades += ",";
                                 }
-                                input = Encoding.Default.GetBytes(item.fullName + Environment.NewLine 
+                                input = Encoding.UTF8.GetBytes(item.fullName + Environment.NewLine 
                                     + item.group + Environment.NewLine 
                                     + grades + Environment.NewLine);
                                 myStream.Write(input, 0, input.Length);

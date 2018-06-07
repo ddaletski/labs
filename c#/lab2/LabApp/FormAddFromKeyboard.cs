@@ -86,7 +86,7 @@ namespace LabApp
         {
             char number = e.KeyChar;
 
-            if (!Char.IsDigit(number))
+            if (!Char.IsDigit(number) && !(char.IsControl(number)))
             {
                 e.Handled = true;
             }

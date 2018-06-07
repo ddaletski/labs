@@ -72,7 +72,7 @@ namespace LabApp
                 {
                     rtbCollection.Text += "Fullname: " + item.fullName + "\n";
                     rtbCollection.Text += "Group: " + item.group + "\n";
-                    rtbCollection.Text += "Grade:";
+                    rtbCollection.Text += "Rating:";
                     for (int i = 0; i < item.rating.Length; i++)
                     {
                         rtbCollection.Text += " " + item.rating[i];
