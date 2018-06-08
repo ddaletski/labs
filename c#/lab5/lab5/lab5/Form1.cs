@@ -63,7 +63,11 @@ namespace lab5
             {
                 eggs[i].Draw(ref g, this.ClientRectangle);
             }
-            currentBird.Draw(ref g, this.ClientRectangle);
+            try
+            {
+                currentBird.Draw(ref g, this.ClientRectangle);
+            }
+            catch (Exception) { }
         }
 
         private void Form1_Click(object sender, EventArgs e)
