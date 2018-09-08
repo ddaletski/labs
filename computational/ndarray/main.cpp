@@ -14,7 +14,7 @@ std::ostream& operator << (std::ostream& str, const SeqType<ItemType, Alloc>& se
 int main() {
 	std::cout << std::endl;
 
-    int rows = 2, cols = 4, channels = 3;
+    int rows = 2, cols = 3, channels = 4;
     int idx = 0;
 
     NDArray<int> arr({rows, cols, channels});
@@ -28,24 +28,21 @@ int main() {
     }
 
     std::cout << arr << std::endl;
+    std::cout << arr.shape() << std::endl;
+
+
     double now = clock();
-    arr.transpose({1, 0, 2});
-    std::cout << arr << std::endl;
-    arr.makeContiguous();
+        arr.transpose({0, 2, 1});
+        arr.makeContiguous();
     double spent = 1000 * (clock() - now) / CLOCKS_PER_SEC;
+
     std::cout << "spent: " << spent << std::endl;
-    std::cout << arr << std::endl;
-    arr.transpose({1, 0, 2});
+    std::cout << arr.shape() << std::endl;
     std::cout << arr << std::endl;
 
-    for(decltype (arr)::iterator it = arr.begin(); it != arr.end(); ++it) {
-
-    }
-//
-//    std::cout << arr << std::endl;
-//
-//    arr.transpose({1, 0, 2});
-//    std::cout << arr << std::endl;
+    arr.transpose({0, 2, 1});
+    std::cout << arr << std::endl;
+    std::cout << arr.shape() << std::endl;
 
     /*
     idx = 0;
