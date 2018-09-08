@@ -20,7 +20,9 @@ private:
     Shape _strides;
     std::shared_ptr<DataType[]> _data;
 
-    bool checkInBounds(const Index& index) {
+    ////////////////// private helpers ///////////////////
+
+    bool checkInBounds(const Index& index) const {
         for(int i = 0; i < index.size(); ++i) {
             if(index[i] >= _shape[i])
                 return false;
@@ -28,7 +30,7 @@ private:
         return true;
     }
 
-    void calculateStrides() {
+    void calculateStridesFromShape() {
         _strides.assign(_shape.begin(), _shape.end());
         _strides.push_back(1);
 
@@ -57,15 +59,49 @@ private:
         return {begin, end};
     }
 
+    void makeContiguousHelper(const TailSlice& curr_slice, DataType*& writeTo) {
+        size_t curr_dim = curr_slice.size();
+
+        if(curr_dim == _shape.size() - 1) {
+            Index index = curr_slice;
+            index.resize(index.size() + 1);
+            for(int i = 0; i < _shape.back(); ++i) {
+                index.back() = i;
+                *(writeTo++) = (operator ()(index));
+            }
+        } else {
+            auto new_slice = curr_slice;
+            new_slice.push_back(0);
+
+            for(int i = 0; i < _shape[curr_dim]; ++i) {
+                new_slice.back() = i;
+                makeContiguousHelper(new_slice, writeTo);
+            }
+        }
+    }
+
     void outputOneDimension(std::ostream & ss, const TailSlice& curr_slice) const {
         size_t curr_dim = curr_slice.size();
 
         if(curr_dim == _shape.size() - 1) {
-            std::pair<size_t, size_t> bounds = tailSliceBounds(curr_slice);
-            for(int i = bounds.first; i < bounds.second; ++i) {
-                ss << _data[i];
-                if(i < bounds.second-1) {
-                    ss << " ";
+            if(isContiguous()) {
+                std::pair<size_t, size_t> bounds = tailSliceBounds(curr_slice);
+                for(int i = bounds.first; i < bounds.second; ++i) {
+                    ss << _data[i];
+                    if(i < bounds.second-1) {
+                        ss << " ";
+                    }
+                }
+            } else {
+                Index index = curr_slice;
+                index.resize(index.size() + 1);
+                for(int i = 0; i < _shape.back(); ++i) {
+                    index.back() = i;
+
+                    ss << (operator ()(index));
+                    if(i < _shape.back() - 1) {
+                        ss << " ";
+                    }
                 }
             }
         } else {
@@ -81,9 +117,11 @@ private:
         }
     }
 
+
 public:
+
     NDArray(const Index shape) : _shape(shape) {
-        calculateStrides();
+        calculateStridesFromShape();
         size_t full_size = count();
 
         _data.reset(new DataType[full_size]);
@@ -110,7 +148,7 @@ public:
 
     NDArray<DataType>& operator = (const NDArray<DataType>& other) {
         _shape = other._shape;
-        calculateStrides();
+        calculateStridesFromShape();
 
         _data = other._data;
 
@@ -134,6 +172,10 @@ public:
 
     const Shape& shape() const {
         return _shape;
+    }
+
+    const Shape& strides() const {
+        return _strides;
     }
 
     const DataType& operator() (const Index & index) const {
@@ -164,17 +206,21 @@ public:
             throw "incompatible shapes";
         }
 
+        if(!isContiguous()) {
+            makeContiguous();
+        }
+
         _shape = shape;
-        calculateStrides();
+        calculateStridesFromShape();
     }
 
-    NDArray<DataType> reshaped(const Shape & shape) {
+    NDArray<DataType> reshaped(const Shape & shape) const {
         NDArray<DataType> copy = *this;
         copy.reshape(shape);
         return copy;
     }
 
-    void transposed(const std::vector<size_t>& dims_permutation) {
+    void transpose(const std::vector<size_t>& dims_permutation) {
         Shape trShape;
         Shape trStrides;
 
@@ -185,13 +231,24 @@ public:
             trStrides.push_back(_strides[dim+1]);
             trShape.push_back(_shape[dim]);
         }
-        // indexToPos will point to data so as it's transposed
 
-        // change shape to permuted
-
-        // reshape data (mb per-element copy using indexToPos)
+        _shape = trShape;
+        _strides = trStrides;
     }
 
+
+    bool isContiguous() const {
+        return std::is_sorted(_strides.begin(), _strides.end(), std::greater_equal<Dim>());
+    }
+
+    void makeContiguous() {
+        std::shared_ptr<DataType[]> newData(new DataType[count()]);
+        DataType* ptr = newData.get();
+        makeContiguousHelper({}, ptr);
+
+        _data = newData;
+        calculateStridesFromShape();
+    }
 
     ///////////////////// reducers ////////////////////////
 
