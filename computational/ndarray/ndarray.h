@@ -14,12 +14,11 @@ typedef Index TailSlice;
 
 
 template <class DataType>
+class NDArrayIter;
+
+template <class DataType>
 class NDArray {
 private:
-    Shape _shape;
-    Shape _strides;
-    std::shared_ptr<DataType[]> _data;
-
     ////////////////// private helpers ///////////////////
 
     bool checkInBounds(const Index& index) const {
@@ -120,6 +119,7 @@ private:
 
 
 public:
+    typedef NDArrayIter<DataType> iterator;
 
     NDArray(const Index shape) : _shape(shape) {
         calculateStridesFromShape();
@@ -273,10 +273,130 @@ public:
 
     ///////////////////////////////////////////////////////
 
+    iterator begin() {
+        Index startIndex(_shape.size());
+        for(int i = 0; i < _shape.size(); ++i) {
+            startIndex[i] = 0;
+        }
+        return NDArrayIter<DataType>(this, startIndex);
+    }
+
+    iterator end() {
+        Index startIndex(_shape.size());
+        startIndex[0] = _shape.front();
+        for(int i = 1; i < _shape.size(); ++i) {
+            startIndex[i] = 0;
+        }
+        return NDArrayIter<DataType>(this, startIndex);
+    }
+
     friend std::ostream& operator << (std::ostream& stream, const NDArray & array) {
         stream << "[";
         array.outputOneDimension(stream, {});
         stream << "]";
         return stream;
     }
+
+private:
+    Shape _shape;
+    Shape _strides;
+    std::shared_ptr<DataType[]> _data;
+};
+
+
+template <class DataType>
+class NDArrayIter {
+public:
+    typedef NDArray<DataType> Array;
+
+    NDArrayIter(Array* array, const Index& startIndex)
+        : _array(array)
+    {
+        _currentSlice = TailSlice(startIndex.begin(), startIndex.end()-1);
+        calculateOffset();
+        _currentTailIdx = startIndex.back();
+    }
+
+    NDArrayIter(const Array & other)
+        : _array(other._array),
+          _currentSlice(other._currentSlice),
+          _currentTailIdx(other._currentTailIdx)
+    {
+        calculateOffset();
+    }
+
+    DataType & operator * () {
+        return _array->_data[_currentOffset];
+    }
+
+    NDArrayIter& operator ++ () {
+        if(_currentTailIdx < _array->_shape.back() - 1) {
+            ++_currentTailIdx;
+        } else {
+            ++_currentSlice.back();
+            normalizeSlice();
+            calculateOffset();
+            _currentTailIdx = 0;
+        }
+    }
+
+    bool operator == (const NDArrayIter & other) {
+        return (_array == other._array) && (_currentOffset == other._currentOffset) && (_currentTailIdx == other._currentTailIdx);
+    }
+
+    bool operator != (const NDArrayIter & other) {
+        return !(operator == (other));
+    }
+
+private:
+
+    bool normalizeSlice() {
+        for(int i = _currentSlice.size() - 1; i >= 0; --i) {
+            // if current dimention is overfilled -> increment lower dim and zero all higher dims
+            if(_currentSlice[i] >= _array->_shape[i]) {
+                for(int j = i; j < _currentSlice.size(); ++j) {
+                    _currentSlice[j] = 0;
+                }
+                if(i > 0) {
+                    ++_currentSlice[i-1];
+                }
+            }
+        }
+    }
+
+    void calculateOffset() {
+        _currentOffset = 0;
+        for(int i = 0; i < _currentSlice.size(); ++i) {
+            _currentOffset += _currentSlice[i] * _array->_strides[i+1];
+        }
+    }
+
+    /*
+    void makeContiguousHelper(const TailSlice& curr_slice, DataType*& writeTo) {
+        size_t curr_dim = curr_slice.size();
+
+        if(curr_dim == _shape.size() - 1) {
+            size_t offset = 0;
+            for(int i = 0; i < curr_slice.size(); ++i) {
+                offset += curr_slice[i] * _strides[i+1];
+            }
+            for(int i = 0; i < _shape.back(); ++i) {
+                *(writeTo++) = _data[offset + i];
+            }
+        } else {
+            auto new_slice = curr_slice;
+            new_slice.push_back(0);
+
+            for(int i = 0; i < _shape[curr_dim]; ++i) {
+                new_slice.back() = i;
+                makeContiguousHelper(new_slice, writeTo);
+            }
+        }
+    }
+    */
+
+    Array * _array;
+    TailSlice _currentSlice;
+    size_t _currentTailIdx;
+    size_t _currentOffset;
 };

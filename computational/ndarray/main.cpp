@@ -18,6 +18,7 @@ int main() {
     int idx = 0;
 
     NDArray<int> arr({rows, cols, channels});
+
     for(int i = 0; i < rows; ++i) {
         for(int j = 0; j < cols; ++j) {
             for(int k = 0; k < channels; ++k) {
@@ -36,6 +37,10 @@ int main() {
     std::cout << arr << std::endl;
     arr.transpose({1, 0, 2});
     std::cout << arr << std::endl;
+
+    for(decltype (arr)::iterator it = arr.begin(); it != arr.end(); ++it) {
+
+    }
 //
 //    std::cout << arr << std::endl;
 //
