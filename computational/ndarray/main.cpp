@@ -14,7 +14,7 @@ std::ostream& operator << (std::ostream& str, const SeqType<ItemType, Alloc>& se
 int main() {
 	std::cout << std::endl;
 
-    int rows = 4, cols = 2, channels = 3;
+    int rows = 2, cols = 4, channels = 3;
     int idx = 0;
 
     NDArray<int> arr({rows, cols, channels});

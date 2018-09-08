@@ -63,11 +63,12 @@ private:
         size_t curr_dim = curr_slice.size();
 
         if(curr_dim == _shape.size() - 1) {
-            Index index = curr_slice;
-            index.resize(index.size() + 1);
+            size_t offset = 0;
+            for(int i = 0; i < curr_slice.size(); ++i) {
+                offset += curr_slice[i] * _strides[i+1];
+            }
             for(int i = 0; i < _shape.back(); ++i) {
-                index.back() = i;
-                *(writeTo++) = (operator ()(index));
+                *(writeTo++) = _data[offset + i];
             }
         } else {
             auto new_slice = curr_slice;
@@ -244,9 +245,11 @@ public:
     void makeContiguous() {
         std::shared_ptr<DataType[]> newData(new DataType[count()]);
         DataType* ptr = newData.get();
+        // traverse array in order (according to strides) and write continioutsly to newData
         makeContiguousHelper({}, ptr);
 
         _data = newData;
+        // calculate strides for contiguous array
         calculateStridesFromShape();
     }
 
