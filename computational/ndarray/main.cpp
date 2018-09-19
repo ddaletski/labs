@@ -29,18 +29,15 @@ int main() {
 
     std::cout << arr << std::endl;
     double now = clock();
-    arr.transpose({1, 0, 2});
+    arr.transpose({0, 2, 1});
     std::cout << arr << std::endl;
     arr.makeContiguous();
     double spent = 1000 * (clock() - now) / CLOCKS_PER_SEC;
     std::cout << "spent: " << spent << std::endl;
     std::cout << arr << std::endl;
-    arr.transpose({1, 0, 2});
+    arr.transpose({0, 2, 1});
     std::cout << arr << std::endl;
 
-    for(decltype (arr)::iterator it = arr.begin(); it != arr.end(); ++it) {
-
-    }
 //
 //    std::cout << arr << std::endl;
 //
