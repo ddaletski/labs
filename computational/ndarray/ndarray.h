@@ -67,7 +67,7 @@ private:
                 offset += curr_slice[i] * _strides[i+1];
             }
             for(int i = 0; i < _shape.back(); ++i) {
-                *(writeTo++) = _data[offset + i];
+                *(writeTo++) = _data[offset + i * _strides.back()];
             }
         } else {
             auto new_slice = curr_slice;
@@ -297,6 +297,8 @@ public:
         return stream;
     }
 
+    friend class NDArrayIter<DataType>;
+
 private:
     Shape _shape;
     Shape _strides;
@@ -326,7 +328,7 @@ public:
     }
 
     DataType & operator * () {
-        return _array->_data[_currentOffset];
+        return _array->_data[_currentOffset + _currentTailIdx * _array->_strides.back()];
     }
 
     NDArrayIter& operator ++ () {
@@ -371,29 +373,6 @@ private:
         }
     }
 
-    /*
-    void makeContiguousHelper(const TailSlice& curr_slice, DataType*& writeTo) {
-        size_t curr_dim = curr_slice.size();
-
-        if(curr_dim == _shape.size() - 1) {
-            size_t offset = 0;
-            for(int i = 0; i < curr_slice.size(); ++i) {
-                offset += curr_slice[i] * _strides[i+1];
-            }
-            for(int i = 0; i < _shape.back(); ++i) {
-                *(writeTo++) = _data[offset + i];
-            }
-        } else {
-            auto new_slice = curr_slice;
-            new_slice.push_back(0);
-
-            for(int i = 0; i < _shape[curr_dim]; ++i) {
-                new_slice.back() = i;
-                makeContiguousHelper(new_slice, writeTo);
-            }
-        }
-    }
-    */
 
     Array * _array;
     TailSlice _currentSlice;

@@ -28,14 +28,23 @@ int main() {
     }
 
     std::cout << arr << std::endl;
-    double now = clock();
+
     arr.transpose({0, 2, 1});
+    std::cout << "transposed\n";
     std::cout << arr << std::endl;
+    double now = clock();
     arr.makeContiguous();
     double spent = 1000 * (clock() - now) / CLOCKS_PER_SEC;
     std::cout << "spent: " << spent << std::endl;
+
+    std::cout << "contiguous\n";
     std::cout << arr << std::endl;
     arr.transpose({0, 2, 1});
+    std::cout << "retransposed\n";
+    std::cout << arr << std::endl;
+
+    arr.makeContiguous();
+    std::cout << "countiguous\n";
     std::cout << arr << std::endl;
 
 //
