@@ -22,6 +22,7 @@ def solve(A: np.matrix, b: np.array):
     n = mat.shape[0]
     perm = np.arange(n)
 
+    # forward pass
     for idx in range(n - 1):
         pivot_row, pivot_col = find_pivot(mat, idx)
 
@@ -38,8 +39,7 @@ def solve(A: np.matrix, b: np.array):
             mat[eliminated_row, :] -= (mat[idx, :] * multiplier)
             out[eliminated_row] -= out[idx] * multiplier
 
-
-    # calculate unknowns
+    # backward pass
     unknowns = [None for i in range(n)]
     for idx in range(n-1, -1, -1):
         x = out[idx]
@@ -67,6 +67,7 @@ def invert(A: np.matrix):
 
     inv = np.identity(n)
 
+    # forward pass
     for idx in range(n - 1):
         pivot_row = np.argmax(mat[idx:, idx]) + idx
 
@@ -81,6 +82,7 @@ def invert(A: np.matrix):
             inv[eliminated_row, :] -= (inv[idx, :] * multiplier)
 
 
+    # backward pass
     for idx in range(n-1, 0, -1):
         assert(mat[idx, idx] != 0)
 
@@ -97,25 +99,68 @@ def invert(A: np.matrix):
     return inv
 
 
-n = 4
-A = np.round(np.random.rand(n, n) * 201 - 100, 2)
-x = np.round(np.random.rand(n) * 21 - 10, 2)
-b = A @ x
+def det(A: np.matrix):
+    mat = A.copy()
 
-print(A)
-print()
-print(b)
+    n = mat.shape[0]
+    perm_sign = 1
 
-x_ = solve(A, b)
+    for idx in range(n - 1):
+        pivot_row, pivot_col = find_pivot(mat, idx)
 
-print(x_ - x)
+        if pivot_row != n:
+            mat[idx], mat[pivot_row] = mat[pivot_row].copy(), mat[idx].copy()
+            perm_sign *= -1
 
-print("\n\n")
+        if pivot_col != n:
+            mat[:, idx], mat[:, pivot_col] = mat[:, pivot_col].copy(), mat[:, idx].copy()
+            perm_sign *= -1
 
-A_inv = invert(A)
+        for eliminated_row in range(0, idx):
+            multiplier = mat[eliminated_row, idx] / mat[idx, idx]
+            mat[eliminated_row, :] -= (mat[idx, :] * multiplier)
 
-print(A)
-print(A_inv)
+    det = mat.diagonal().prod() * perm_sign
+    return det
 
-E = A @ A_inv
-print(E)
+
+def continuous_norm(mat):
+    row_sums = np.sum(np.abs(mat), 1)
+    return np.max(row_sums)
+
+
+if __name__ == "__main__":
+    np.set_printoptions(floatmode="fixed")
+
+    n = 10
+    lower_bound = -100
+    upper_bound = 100
+    A = np.round(np.random.rand(n, n) * (upper_bound - lower_bound + 1) + lower_bound, 2)
+    x = np.round(np.random.rand(n) * 21 - 10, 2)
+    b = A @ x
+
+    print(A)
+    print()
+    print(b)
+
+    x_ = solve(A, b)
+
+    print(x_ - x)
+
+    print("\n\n")
+
+    A_inv = invert(A)
+
+    print("A:", A)
+    print("A^-1:", A_inv)
+
+    E = A @ A_inv
+
+    print("det: ", det(E))
+    print("det A:", det(A))
+    print("det A^-1:", det(A_inv))
+
+    print(continuous_norm(A))
+
+    condition_number = continuous_norm(A) * continuous_norm(A_inv)
+    print("condition_number:", condition_number)
