@@ -11,3 +11,5 @@ ipch
 *.VC.opendb
 .vs
 obj
+.vscode
+.idea
