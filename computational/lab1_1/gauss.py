@@ -63,7 +63,7 @@ def continuous_norm(mat):
 
 
 if __name__ == "__main__":
-    np.set_printoptions(floatmode="fixed")
+    np.set_printoptions(floatmode="fixed", precision=16)
     A = np.array([
         [8, 0, -4, 0, -2],
         [0, 7, 0, -4, 0],
@@ -79,5 +79,6 @@ if __name__ == "__main__":
     print("b =", b)
 
     x_ = solve(A, b)
+    print("x =", x)
     print("x_ =", x_)
     print(max(abs(x - x_)))
