@@ -13,3 +13,8 @@ ipch
 obj
 .vscode
 .idea
+*.jpg
+*.png
+*.zip
+*.7z
+*.tar.*
