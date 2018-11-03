@@ -1,0 +1,222 @@
+country	population	area	gdp	ind
+China	1319498000	9640821                           2630113	ind    
+India	1169016000	3287263                           886867        ind
+USA	302425000	9629091                           13244550      ind
+Indonesia	231627000	1904569                   364239        ind
+Brazil	186736000	8514877                           1067706       ind
+Pakistan	160757000	880254                    128996        ind
+Bangladesh	158665000	143998                    65216         ind
+Nigeria	148093000	923768                            115350        ind
+Russia	142499000	17098242                          979048        ind
+Japan	127750000	377873                            4367459       ind
+Mexico	103263388	1958201                           840012        ind
+Philippines	88706300	300000                    116931        ind
+Vietnam	87375000	331689                            60995         ind
+Germany	82314900	357022                            2897032       ind
+Ethiopia	77127000	1104300                   13315         ind
+Egypt	75498000	1001449                           107375        ind
+Turkey	74877000	783562                            392424        ind
+Iran	71208000	1648195                           212492        ind
+France	64102140	551500                            2231631       ind
+Thailand	62828706	513115                    206258        ind
+"Dem. Rep. of Congo"	62636000	2344858           8543          ind
+UK	60209500	242900                            2373685       ind
+Italy	59131287	301318                            1852585       ind
+Myanmar	48798000	676578                            13002         ind
+"South Africa"	48577000	1221037                   255155        ind
+"South Korea"	48472700	99538                     888267        ind
+Ukraine	46205000	603700                            106072        ind
+Spain	45116894	505992                            1225750       ind
+Colombia	43964602	1138914                   135075        ind
+Tanzania	40454000	945087                    12787         ind
+Argentina	39531000	2780400                   212702        ind
+Sudan	38560000	2505813                           37564         ind
+Poland	38125479	312685                            338689        ind
+Kenya	37538000	580367                            23187         ind
+Algeria	33858000	2381741                           114322        ind
+Canada	32977500	9970610                           1269096       ind
+Morocco	31224000	446550                            57407         ind
+Uganda	30884000	241038                            9443          ind
+Iraq	28993000	438317                            NA            ind
+Nepal	28196000	147181                            7994          ind
+Peru	27903000	1285216                           93268         ind
+Venezuela	27657000	912050                    181608        ind
+Uzbekistan	27372000	447400                    16088         ind
+Malaysia	27199388	329847                    150923        ind
+Afghanistan	27145000	652090                    8399          ind
+"Saudi Arabia"	24735000	2149690                   348604        ind
+"North Korea"	23790000	120538                    NA            ind
+Ghana	23478000	238533                            12894         ind
+Taiwan	22910000	36188                             355708        ind
+Yemen	22389000	527968                            18700         ind
+Romania	21438000	238391                            121901        ind
+Mozambique	21397000	801590                    7296          ind
+Australia	21018897	83858                     754816        ind
+Syria	19929000	185180                            31505         ind
+Madagascar	19683000	587041                    5489          ind
+"Sri Lanka"	19299000	65610                     26794         ind
+"C?te d'Ivoire"	19262000	322463                    17339         ind
+Cameroon	18549000	475442                    18372         ind
+Angola	17024000	1246700                           43759         ind
+Chile	16598074	756096                            145205        ind
+Netherlands	16374716	41528                     663119        ind
+Kazakhstan	15422000	2724900                   77237         ind
+"Burkina Faso"	14784000	274000                    6055          ind
+Cambodia	14444000	181035                    7096          ind
+Niger	14226000	1267000                           3550          ind
+Malawi	13925000	118484                            2238          ind
+Guatemala	13354000	108889                    35304         ind
+Zimbabwe	13349000	390757                    5540          ind
+Ecuador	13341000	283561                            40447         ind
+Senegal	12379000	196722                            9242          ind
+Mali	12337000	1240192                           6191          ind
+Zambia	11922000	752618                            10942         ind
+Cuba	11268000	110861                            NA            ind
+Greece	11147000	131957                            307709        ind
+Chad	10781000	1284000                           6547          ind
+Portugal	10623000	91982                     194989        ind
+Belgium	10457000	30528                             39359         ind
+Tunisia	10327000	163610                            3062          ind
+"Czech Republic"	10306709	78866             141801        ind
+Hungary	10030000	93032                             114273        ind
+Serbia	9858000	88361                                     31589         ind
+"Dominican Republic"	9760000	48671                     31600         ind
+Rwanda	9725000	26338                                     2397          ind
+Belarus	9689000	207600                                    36944         ind
+Haiti	9598000	27750                                     4473          ind
+Bolivia	9525000	1098581                                   10828         ind
+Guinea	9370000	245857                                    3317          ind
+Sweden	9150000	449964                                    385293        ind
+Benin	9033000	112622                                    4760          ind
+Somalia	8699000	637657                                    NA            ind
+Burundi	8508000	27834                                     908           ind
+Azerbaijan	8467000	86600                             19817         ind
+Austria	8361000	83858                                     321934        ind
+Bulgaria	7639000	110912                            30608         ind
+Switzerland	7484000	41284                             37724         ind
+Israel	7161000	22145                                     140195        ind
+Honduras	7106000	112088                            8981          ind
+"El Salvador"	6857000	21041                             18341         ind
+Tajikistan	6736000	143100                            2811          ind
+Togo	6585000	56785                                     2210          ind
+"Papua New Guinea"	6331000	462840                    4338          ind
+Libya	6160000	1759540                                   50330         ind
+Paraguay	6127000	406752                            8773          ind
+Jordan	5924000	89342                                     14318         ind
+"Sierra Leone"	5866000	71740                             1419          ind
+Laos	5859000	236800                                    NA            ind
+Nicaragua	5603000	130000                            5369          ind
+Denmark	5550000	43094                                     276611        ind
+Slovakia	5390000	49033                             54969         ind
+Kyrgyzstan	5317000	199900                            2822          ind
+Finland	5310000	338145                                    210837        ind
+Turkmenistan	4965000	488100                            21846	        ind
+Eritrea	4851000	117600                                    1160	        ind
+Norway	4770000	385155                                    335281	ind    
+Croatia	4555000	56538                                     42456	        ind
+"Costa Rica"	4468000	51100                             21384	        ind
+Singapore	4436000	683                               132155	ind    
+Georgia	4395000	69700                                     7830	        ind
+"United Arab Emirates"	4380000	83600                     168263	ind    
+"Central African Republic"	4343000	622984            1488	        ind
+Ireland	4234925	70273                                     222080	ind    
+"New Zealand"	4230000	270534                            103380	ind    
+Lebanon	4099000	10400                                     22622	        ind
+"Palestinian territories"	4017000	6020              NA	        ind
+"Puerto Rico"	3991000	8875                              NA	        dep
+"Bosnia and Herzegovina"	3935000	51197             11396	        ind
+Moldova	3794000	33851                                     3242	        ind
+"Republic of the Congo"	3768000	342000                    7399          ind
+Liberia	3750000	111369                                    622           ind
+Lithuania	3390000	65300                             29784         ind
+Panama	3343000	75517                                     17113         ind
+Uruguay	3340000	175016                                    19221         ind
+Albania	3190000	28748                                     9133          ind
+Mauritania	3124000	1025520                           2663          ind
+Armenia	3002000	29800                                     6410          ind
+Kuwait	2851000	17818                                     96132         ind
+Jamaica	2714000	10991                                     10565         ind
+Mongolia	2629000	1564116                           2803          ind
+Oman	2595000	309500                                    35992         ind
+Latvia	2277000	64600                                     19621         ind
+Namibia	2074000	824292                                    6316          ind
+"Republic of Macedonia"	2038000	25713                     6248          ind
+Slovenia	2030000	20256                             37340         ind
+Lesotho	2008000	30355                                     1634          ind
+Botswana	1882000	581730                            10808         ind
+Gambia	1709000	11295                                     507           ind
+"Guinea-Bissau"	1695000	36125                             305           ind
+Estonia	1342409	45100                                     16410         ind
+"Trinidad and Tobago"	1333000	5130                      19935         ind
+Gabon	1331000	267668                                    9124          ind
+Mauritius	1262000	2040                              6402          ind
+"East Timor"	1155000	14874                             356           ind
+Swaziland	1141000	17364                             2637          ind
+Cyprus	855000	9251                                      18235         ind
+Qatar	841000	11000                                     52722         ind
+Fiji	839000	18274                                     2977          ind
+Djibouti	833000	23200                             768           ind
+Bahrain	753000	694                                       16065         ind
+Guyana	738000	214969                                    870           ind
+Comoros	682000	2235                                      402           ind
+Bhutan	658000	47000                                     983           ind
+Montenegro	598000	13812                             NA            ind
+"Cape Verde"	530000	4033                              1150          ind
+"Equatorial Guinea"	507000	28051                     9135          ind
+"Solomon Islands"	496000	28896                     321           ind
+"Sahrawi Arab Democratic Republic"	480000	NA        NA            ind
+Luxembourg	467000	2586                              40577         ind
+"Suriname"	458000	163820                            2112          ind
+Malta	407000	316                                       6085          ind
+Brunei	390000	5765                                      11438         ind
+Bahamas	331000	13878                                     6223          ind
+Iceland	309699	103000                                    16579         ind
+Maldives	306000	298                               988           ind
+Barbados	294000	430000                            3386          ind
+Belize	288000	22966                                     1213          ind
+Vanuatu	226000	12189                                     387	        ind
+"Netherlands Antilles"	192000	800                       3204	        dep
+Samoa	187000	2831                                      365	        ind
+Guam	173000	549                                       NA	        dep
+"Saint Lucia"	165000	539                               933	        ind
+"S?o Tom? and Pr?ncipe"	158000	964                       79	        ind
+"Saint Vincent and the Grenadines"	120000	388       466	        ind
+"U.S. Virgin Islands"	111000	347                       NA	        dep
+"Federated States of Micronesia"	111000	702       NA	        ind
+Grenada	106000	344                                       529	        ind
+Aruba	104000	180                                       NA	        dep
+Tonga	100000	747                                       224	        ind
+Kiribati	95000	726                               60	        ind
+Jersey	88200	116                                       NA	        dep
+Seychelles	87000	455                               749	        ind
+"Antigua and Barbuda"	85000	442                       962	        ind
+"Northern Mariana Islands"	84000	464               NA	        dep
+Andorra	81200	468                                       NA	        ind
+"Isle of Man"	79000	572                               NA	        dep
+Dominica	67000	751                               300	        ind
+"American Samoa"	67000	199                       NA	        dep
+Guernsey	65573	78                                NA	        dep
+Bermuda	65000	53                                        NA	        dep
+"Marshall Islands"	59000	181                       NA	        ind
+Greenland	58000	2175600                           NA	        dep
+"Saint Kitts and Nevis"	50000	261                       487	        ind
+"Faroe Islands"	48455	1399                              NA	        dep
+"Cayman Islands"	47000	264                       NA	        dep
+Liechtenstein	35000	160                               NA	        ind
+Monaco	33000	1.95                                      NA	        ind
+"San Marino"	31000	61                                NA	        ind
+Gibraltar	29000	6                                 NA	        dep
+"Turks and Caicos Islands"	26000	948               NA	        dep
+"British Virgin Islands"	23000	151               NA	        dep
+Palau	20000	459                                       NA	        ind
+"Cook Islands"	13000	236                               NA	        dep
+Anguilla	13000	91                                NA	        dep
+Tuvalu	11000	26                                        NA	        ind
+Nauru	10000	21                                        NA	        ind
+"Saint Helena"	6600	122                               NA	        dep
+Montserrat	5900	102                               NA	        dep
+"Falkland Islands"	3000	12173                     NA	        dep
+Niue	1600	260                                       NA	        dep
+Tokelau	1400	12                                        NA	        dep
+"Vatican City"	800	0.44                              NA	        ind
+"Pitcairn Islands"	50	5                         NA	        dep
