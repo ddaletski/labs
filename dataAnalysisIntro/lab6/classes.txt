@@ -1,0 +1,12 @@
+bulba       0.3
+hleb        0.5
+vodka       0.3
+miaso       0.2
+pivo        0.4
+sprite      0.1
+salt        0.1
+kolbaska    0.0
+ohurki      0.0
+seledka     0.0
+maslo       0.0
+chips       0.0

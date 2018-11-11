@@ -1,0 +1,13 @@
+vodka   hleb    0.7
+vodka   ohurki  0.5
+vodka   seledka 0.2
+hleb    maslo   0.6
+hleb    kolbaska    0.3
+bulba   seledka 0.2
+bulba   ohurki  0.3
+miaso   hleb    0.5
+miaso   bulba   0.6
+pivo    chips   0.9
+pivo    vodka   0.3
+vodka   sprite  0.3
+sprite  chips   0.1
