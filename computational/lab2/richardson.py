@@ -7,13 +7,8 @@ def richardson_step(x, A, b, lr):
     return x_next
 
 
-def richardson_generator(A, b, eps=1e-6, lr='optimal'):
+def richardson_generator(A, b, eps, lr):
     n = A.shape[0]
-
-    if lr == 'optimal':
-        eigenvals, _ = np.linalg.eigh(A)
-        min_eig, max_eig = (eigenvals[0], eigenvals[-1])
-        lr = 2 / (min_eig + max_eig)
 
     x_current = np.random.normal(size=n)
 
@@ -47,18 +42,32 @@ if __name__ == "__main__":
     print(A)
     print("b =", b)
 
-    xs_ = np.array(list(richardson_generator(A, b, 1e-6)))
-    steps = len(xs_)
-
-    x_ = xs_[-1]
-
     print("x =", x)
+
+    eigenvals, _ = np.linalg.eigh(A)
+    min_eig = eigenvals[0]
+    max_eig = eigenvals[-1]
+    max_tau = 2.0 / (0.2 * min_eig + max_eig)
+    min_tau = max_tau / 10
+    opt_tau = 2.0 / (min_eig + max_eig)
+
+    steps_counts = []
+    taus = np.linspace(min_tau, max_tau, 100)
+    for tau in taus:
+        xs_ = np.array(list(richardson_generator(A, b, 1e-6, tau)))
+        x_ = xs_[-1]
+        steps = len(xs_)
+        steps_counts.append(steps)
+
+    fig, ax = plt.subplots(1, 1)
+    ax.plot(taus, steps_counts)
+    plt.title("dependence of steps count from τ")
+    plt.xlabel("τ")
+    plt.ylabel('steps')
+    plt.savefig("out.png")
+
     print("x' =", x_)
-    print("steps = ", steps)
     print("|x - x'| = ", max(abs(x - x_)))
 
-    plt.plot(np.max(np.abs(xs_ - x), axis=1))
-    plt.title("convergence of x' to x")
-    plt.xlabel('step')
-    plt.ylabel("|x - x'|")
     plt.show()
+
