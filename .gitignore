@@ -18,3 +18,4 @@ obj
 *.zip
 *.7z
 *.tar.*
+.Rproj.user

@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.Timer;
-import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +12,7 @@ public class Main extends JApplet {
     MyPanel panel;
 
     public void init() {
-        panel = new MyPanel(getParameter("str"));
+        panel = new MyPanel(getParameter("text"));
         add(panel);
     }
 }
@@ -21,10 +20,11 @@ public class Main extends JApplet {
 class MyPanel extends JPanel implements ActionListener {
     Font font = new Font("TimesRoman", Font.BOLD, 24);
 
-    String[] cornerBuffers;
-    String drawnString;
+    StringBuffer cornersBuffer;
+    StringBuffer drawnString;
+
     String fullString;
-    HashMap<Integer, Character> flyingChars;
+    HashMap<Integer, String> flyingStrings;
     int steps;
 
     double[] progress;
@@ -36,59 +36,37 @@ class MyPanel extends JPanel implements ActionListener {
     MyPanel(String str) {
         super();
         timer = new javax.swing.Timer(1, this);
+        timer.setActionCommand("-1");
 
         timers = new ArrayList<>();
-        timers.add(new javax.swing.Timer(1, (actionEvent) -> {
-            this.step(0);
-        }));
-        timers.add(new javax.swing.Timer(1, (actionEvent) -> {
-            this.step(1);
-        }));
-        timers.add(new javax.swing.Timer(1, (actionEvent) -> {
-            this.step(2);
-        }));
-        timers.add(new javax.swing.Timer(1, (actionEvent) -> {
-            this.step(3);
-        }));
+        for(int i = 0; i < 4; ++i) {
+            Timer t = new javax.swing.Timer(1, this);
+            t.setActionCommand("" + i);
+            timers.add(t);
+        }
 
         fullString = str;
-        flyingChars = new HashMap<Integer, Character>();
+        flyingStrings = new HashMap<Integer, String>();
 
         steps = 1000;
         direction = 1;
-        drawnString = "";
-
         startTimers();
     }
 
     private void startTimers() {
         if(direction > 0) {
-            progress = new double[]{0, 0, 0, 0};
-            cornerBuffers = splitString(fullString, 4);
+            drawnString = new StringBuffer();
+            cornersBuffer = new StringBuffer(fullString);
+            progress = new double[]{0.3, 0.2, 0.1, 0.0};
         } else {
-            progress = new double[]{1.0, 1.0, 1.0, 1.0};
-        }
-        for(int i = 0; i < 4; ++i) {
-            timers.get(i).setInitialDelay(i * steps / 10);
-            timers.get(i).setDelay(1);
-            timers.get(i).start();
+            drawnString = new StringBuffer(fullString);
+            cornersBuffer = new StringBuffer();
+            progress = new double[]{0.7, 0.8, 0.9, 1.0};
         }
         timer.start();
-    }
-
-    private String[] splitString(String s, int n) {
-        int subsize = s.length() / n;
-        String[] substrings = new String[n];
-        for (int i = 0; i < n; ++i) {
-            if (i == 0) {
-                substrings[i] = s.substring(0, (i + 1) * subsize);
-            } else if (i == n - 1) {
-                substrings[i] = s.substring(i * subsize);
-            } else {
-                substrings[i] = s.substring(i * subsize, (i + 1) * subsize);
-            }
+        for(int i = 0; i < 4; ++i) {
+            timers.get(i).restart();
         }
-        return substrings;
     }
 
 
@@ -98,53 +76,61 @@ class MyPanel extends JPanel implements ActionListener {
         }
     }
 
+    private int charWithSpacesLen(StringBuffer s) {
+        int i;
+        for(i = 1; i < s.length() && s.charAt(i) == ' '; ++i) {}
+        return i;
+    }
+
 
     public void step(int i) {
         if (direction > 0) {
-            if (!flyingChars.containsKey(i) && cornerBuffers[i].length() > 0) {
-                flyingChars.put(i, cornerBuffers[i].charAt(0));
-                cornerBuffers[i] = cornerBuffers[i].substring(1);
+            if (!flyingStrings.containsKey(i)) {
+                if (cornersBuffer.length() > 0) {
+                    int substrSize = charWithSpacesLen(cornersBuffer);
+                    flyingStrings.put(i, cornersBuffer.substring(0, substrSize));
+                    cornersBuffer = cornersBuffer.delete(0, substrSize);
+                } else {
+                    timers.get(i).stop();
+                    return;
+                }
             }
-
-            if (!flyingChars.containsKey(i)) {
-                return;
-            }
-
             progress[i] += 1.0 / steps;
 
             if (progress[i] >= 1.0) {
-                drawnString += flyingChars.get(i);
-                flyingChars.remove(i);
+                drawnString.append(flyingStrings.get(i));
+                flyingStrings.remove(i);
                 progress[i] = 0;
-                timers.get(i).stop();
-                timers.get(i).start();
             }
         } else {
-            if (!flyingChars.containsKey(i) && drawnString.length() > 0) {
-                flyingChars.put(i, drawnString.charAt(0));
-                drawnString = drawnString.substring(1);
-            }
-
-            if (!flyingChars.containsKey(i)) {
-                return;
+            if (!flyingStrings.containsKey(i)) {
+                if (drawnString.length() > 0) {
+                    int substrSize = charWithSpacesLen(drawnString);
+                    flyingStrings.put(i, drawnString.substring(0, substrSize));
+                    drawnString = drawnString.delete(0, substrSize);
+                } else {
+                    timers.get(i).stop();
+                    return;
+                }
             }
 
             progress[i] -= 1.0 / steps;
 
             if (progress[i] <= 0) {
-                cornerBuffers[i] += flyingChars.get(i);
-                flyingChars.remove(i);
+                flyingStrings.remove(i);
                 progress[i] = 1.0;
-                timers.get(i).stop();
-                timers.get(i).start();
             }
         }
     }
 
     public void step () {
         if(direction > 0 && drawnString.length() == fullString.length()
-        || direction < 0 && drawnString.length() == 0 && flyingChars.isEmpty()) {
+        || direction < 0 && drawnString.length() == 0 && flyingStrings.isEmpty()) {
 
+            for(Timer t : timers) {
+                t.stop();
+            }
+            timer.stop();
             direction = -direction;
             try {
                 Thread.sleep(1000);
@@ -165,25 +151,25 @@ class MyPanel extends JPanel implements ActionListener {
         int startX = hcenter - g.getFontMetrics().stringWidth(fullString) / 2;
         int endX = startX + g.getFontMetrics().stringWidth(fullString);
 
-        int stringWidth = g.getFontMetrics().stringWidth(drawnString);
+        int stringWidth = g.getFontMetrics().stringWidth(drawnString.toString());
         if (direction > 0) {
-            g.drawString(drawnString, startX, vcenter);
+            g.drawString(drawnString.toString(), startX, vcenter);
         } else {
-            g.drawString(drawnString, endX - stringWidth, vcenter);
+            g.drawString(drawnString.toString(), endX - stringWidth, vcenter);
         }
 
         eachCorner(i -> {
-            if (flyingChars.containsKey(i)) {
-                int symWidth = g.getFontMetrics().charWidth(flyingChars.get(i));
+            if (flyingStrings.containsKey(i)) {
+                int symWidth = g.getFontMetrics().charWidth(flyingStrings.get(i).charAt(0));
                 int symHeight = g.getFontMetrics().getHeight();
 
                 int symTargetY = vcenter;
                 int symTargetX;
                 symTargetY = vcenter;
                 if(direction > 0) {
-                    symTargetX = startX + stringWidth + symWidth * i;
+                    symTargetX = startX + stringWidth + symWidth * i / 2;
                 } else {
-                    symTargetX = endX - stringWidth + symWidth * i;
+                    symTargetX = endX - stringWidth - symWidth * (4-i) / 2;
                 }
                 int symStartX = new int[]{0, getWidth(), 0, getWidth()}[i];
                 int symStartY = new int[]{0, 0, getHeight(), getHeight()}[i];
@@ -200,22 +186,28 @@ class MyPanel extends JPanel implements ActionListener {
                     ypos += getHeight();
                 }
 
-                g.drawString("" + flyingChars.get(i), xpos, ypos);
+                g.drawString("" + flyingStrings.get(i), xpos, ypos);
             }
         });
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-        step();
-        repaint();
+        int command = Integer.parseInt(actionEvent.getActionCommand());
+
+        if (command < 0) {
+            step();
+            repaint();
+        } else {
+            step(command);
+        }
     }
 }
 
 
 
 /*
-<applet code="Main.class" width=100 height=50>
-<param name="str" value="lolka">
+<applet code="Main.class" width=640 height=480>
+<param name="text" value="Some text written by hands">
 </applet>
  */
