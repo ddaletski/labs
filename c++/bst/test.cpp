@@ -125,7 +125,7 @@ TEST_F(TreeTest, TestTraverseMinmax) {
         sorted_vector.push_back(nodeVal);
     };
 
-    tree1.traverse(BST<int>::traverse_type::INORDER, func);
+    tree1.traverse(traverse_type::INORDER, func);
 
     ASSERT_EQ(sorted_vector, true_sorted_vector);
 }
@@ -146,7 +146,7 @@ TEST_F(TreeTest, TestTraverseMaxmin) {
         sorted_vector.push_back(nodeVal);
     };
 
-    tree1.traverse(BST<int>::traverse_type::OUTORDER, func);
+    tree1.traverse(traverse_type::OUTORDER, func);
 
     ASSERT_EQ(sorted_vector, true_sorted_vector);
 }
@@ -165,7 +165,7 @@ TEST_F(TreeTest, TestTraverseDirect) {
         traverse_result.push_back(nodeVal);
     };
 
-    tree1.traverse(BST<int>::traverse_type::PREORDER, func);
+    tree1.traverse(traverse_type::PREORDER, func);
 
     std::vector<int> expected_result = {4, 2, 1, 3, 6, 5, 7};
 
@@ -185,7 +185,7 @@ TEST_F(TreeTest, TestTraverseReversed) {
         traverse_result.push_back(nodeVal);
     };
 
-    tree1.traverse(BST<int>::traverse_type::POSTORDER, func);
+    tree1.traverse(traverse_type::POSTORDER, func);
 
     std::vector<int> expected_result = {1, 3, 2, 5, 7, 6, 4};
 
@@ -205,7 +205,7 @@ TEST_F(TreeTest, TestTraverseLevels) {
         traverse_result.push_back(nodeVal);
     };
 
-    tree1.traverse(BST<int>::traverse_type::BFS, func);
+    tree1.traverse(traverse_type::BFS, func);
 
     std::vector<int> expected_result = values;
 

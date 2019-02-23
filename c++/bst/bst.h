@@ -29,12 +29,13 @@ public:
     }
 };
 
+enum traverse_type { PREORDER, POSTORDER, INORDER, OUTORDER, BFS };
+
 template <class T, class Compare = std::less<T>>
 class BST {
 public:
     // unary operator to apply to each nodevalue
     typedef std::function<void(const T&)> Applicator;
-    enum traverse_type { PREORDER, POSTORDER, INORDER, OUTORDER, BFS };
 
 private:
     // unary operator to apply to each node with its id
