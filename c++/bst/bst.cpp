@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
                 bst::BST<int>::Applicator f = [&](const int& val) {
                     outfile << val << "\n";
                 };
-                tree.traverse(bst::BST<int>::traverse_type::MINMAX, f);
+                tree.traverse(bst::BST<int>::traverse_type::INORDER, f);
                 break;
             } default: {
                 std::cout << "unknown command: " << command << std::endl;

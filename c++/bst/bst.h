@@ -34,7 +34,7 @@ class BST {
 public:
     // unary operator to apply to each nodevalue
     typedef std::function<void(const T&)> Applicator;
-    enum traverse_type { DIRECT, REVERSED, MINMAX, MAXMIN, LEVELS };
+    enum traverse_type { PREORDER, POSTORDER, INORDER, OUTORDER, BFS };
 
 private:
     // unary operator to apply to each node with its id
@@ -106,39 +106,39 @@ private:
         }
     }
 
-    void _traverse_direct(TreeNode<T>* node, int id, const NodeApplicator& f) {
+    void _preorder(TreeNode<T>* node, int id, const NodeApplicator& f) {
         if (node) {
             f(id, *node);
-            _traverse_direct(node->left, id*2, f);
-            _traverse_direct(node->right, id*2+1, f);
+            _preorder(node->left, id*2, f);
+            _preorder(node->right, id*2+1, f);
         }
     }
 
-    void _traverse_reversed(TreeNode<T>* node, int id, const NodeApplicator& f) {
+    void _postorder(TreeNode<T>* node, int id, const NodeApplicator& f) {
         if (node) {
-            _traverse_reversed(node->left, id*2, f);
-            _traverse_reversed(node->right, id*2+1, f);
+            _postorder(node->left, id*2, f);
+            _postorder(node->right, id*2+1, f);
             f(id, *node);
         }
     }
 
-    void _traverse_minmax(TreeNode<T>* node, int id, const NodeApplicator& f) {
+    void _inorder(TreeNode<T>* node, int id, const NodeApplicator& f) {
         if (node) {
-            _traverse_minmax(node->left, id*2, f);
+            _inorder(node->left, id*2, f);
             f(id, *node);
-            _traverse_minmax(node->right, id*2+1, f);
+            _inorder(node->right, id*2+1, f);
         }
     }
 
-    void _traverse_maxmin(TreeNode<T>* node, int id, const NodeApplicator& f) {
+    void _outorder(TreeNode<T>* node, int id, const NodeApplicator& f) {
         if (node) {
-            _traverse_maxmin(node->right, id*2+1, f);
+            _outorder(node->right, id*2+1, f);
             f(id, *node);
-            _traverse_maxmin(node->left, id*2, f);
+            _outorder(node->left, id*2, f);
         }
     }
 
-    void _traverse_levels(TreeNode<T>* node, int id, const NodeApplicator& f) {
+    void _bfs(TreeNode<T>* node, int id, const NodeApplicator& f) {
         std::queue<TreeNode<T>*> queue;
         queue.push(node);
 
@@ -243,20 +243,20 @@ public:
             func(node.val);
         };
         switch (ttype) {
-            case DIRECT:
-                _traverse_direct(_root, 1, f);
+            case PREORDER:
+                _preorder(_root, 1, f);
                 break;
-            case REVERSED:
-                _traverse_reversed(_root, 1, f);
+            case POSTORDER:
+                _postorder(_root, 1, f);
                 break;
-            case MINMAX:
-                _traverse_minmax(_root, 1, f);
+            case INORDER:
+                _inorder(_root, 1, f);
                 break;
-            case MAXMIN:
-                _traverse_maxmin(_root, 1, f);
+            case OUTORDER:
+                _outorder(_root, 1, f);
                 break;
-            case LEVELS:
-                _traverse_levels(_root, 1, f);
+            case BFS:
+                _bfs(_root, 1, f);
             default:
                 break;
         }
@@ -282,7 +282,7 @@ public:
                 out << "node" << id << " -> nil" << id*2+1 << ";\n";
             }
         };
-        _traverse_direct(_root, 1, add_node);
+        _preorder(_root, 1, add_node);
 
         out << "}";
     }
