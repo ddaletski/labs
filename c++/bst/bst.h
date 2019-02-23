@@ -74,18 +74,15 @@ private:
         }
     }
 
-    TreeNode<T>** _find(TreeNode<T>** nodePtr, const T& val, int* comparisons=0) {
+    TreeNode<T>** _find(TreeNode<T>** nodePtr, const T& val) {
         TreeNode<T>* node = *nodePtr;
         if (!node)
             return nullptr;
 
-        if(comparisons)
-            (*comparisons)++;
-
         if (_cmp(val, node->val)) {
-            return _find(&((*nodePtr)->left), val, comparisons);
+            return _find(&((*nodePtr)->left), val);
         } else if (_cmp(node->val, val)) {
-            return _find(&((*nodePtr)->right), val, comparisons);
+            return _find(&((*nodePtr)->right), val);
         } else {
             return nodePtr;
         }
@@ -205,13 +202,9 @@ public:
         return true;
     }
 
-    int find(const T& val) {
-        int comparisons = 0;
-        TreeNode<T>** result = _find(&_root, val, &comparisons);
-        if (result)
-            return comparisons;
-        else
-            return -comparisons;
+    bool find(const T& val) {
+        TreeNode<T>** result = _find(&_root, val);
+        return result != nullptr;
     }
 
     T pop_min() {

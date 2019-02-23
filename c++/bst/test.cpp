@@ -20,9 +20,18 @@ std::ostream& operator << (std::ostream& str, const std::vector<T>& vec) {
 class TreeTest : public ::testing::Test {
 protected:
     virtual void SetUp() {
-        random_vector = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        shuffle (random_vector.begin(), random_vector.end(),
-                 std::default_random_engine(0));
+        srand(time(0));
+        for(int i = 0; i < 1000; ++i) {
+            random_vector.emplace_back(rand() % 5000);
+        }
+        for(int i = 0; i < 1000; ++i) {
+            random_vector.emplace_back(6000 + rand() % 5000);
+        }
+        std::sort(random_vector.begin(), random_vector.end());
+        auto last = std::unique(random_vector.begin(), random_vector.end());
+        random_vector.erase(last, random_vector.end());
+
+        std::shuffle (random_vector.begin(), random_vector.end(), std::default_random_engine(0));
     }
 
     virtual void TearDown() {}
@@ -48,7 +57,7 @@ TEST_F(TreeTest, TestRemove) {
         tree1.insert(x);
     }
 
-    for(int i = 1000; i < 1100; ++i) {
+    for(int i = 5000; i < 6000; ++i) {
         ASSERT_FALSE(tree1.remove(i));
     }
 
@@ -64,13 +73,17 @@ TEST_F(TreeTest, TestFind) {
         tree1.insert(x);
     }
 
-    for(int i = 1; i <= 10; ++i) {
-        auto comparisons = tree1.find(i);
-        ASSERT_GT(comparisons, 0);
+    for(int i = 0; i < 10; ++i) {
+        tree1.insert(i);
     }
 
-    auto comparisons = tree1.find(15);
-    ASSERT_LT(comparisons, 0);
+    for(int i = 1; i <= 10; ++i) {
+        ASSERT_TRUE(tree1.find(i));
+    }
+
+    for(int i = 5000; i < 6000; ++i) {
+        ASSERT_FALSE(tree1.find(i));
+    }
 }
 
 
