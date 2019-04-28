@@ -73,7 +73,7 @@ TEST_F(TreeTest, TestFind) {
         tree1.insert(x);
     }
 
-    for(int i = 0; i < 10; ++i) {
+    for(int i = 1; i <= 10; ++i) {
         tree1.insert(i);
     }
 
